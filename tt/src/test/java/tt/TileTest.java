@@ -10,16 +10,16 @@ import org.junit.Test;
 public class TileTest {
     @Test
     public void getBuildingTest1 () {
-        Tile<Building> tile = new Tile<>(0,0,new UniqueBuilding());
-        Building actual = tile.getBuilding();
-        Building expected = new UniqueBuilding();
+        Tile<Building> tile = new Tile<>(0,0,new UniqueBuilding(BuildingType.YELLOW));
+        BuildingType actual = tile.getBuilding();
+        BuildingType expected = BuildingType.YELLOW;
         assertEquals(expected,actual);
     }
     @Test
     public void getBuildingTest2 () {
         Tile<Building> tile = new Tile<>(0,0);
-        Building actual = tile.getBuilding();
-        Building expected = null;
+        BuildingType actual = tile.getBuilding();
+        BuildingType expected = null;
         assertEquals(expected,actual);
     }
     @Test

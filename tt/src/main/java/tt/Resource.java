@@ -17,6 +17,9 @@ public enum Resource {
     }
     @Override
     public String toString () {
+        if (this.emoji == null) {
+            return ":empty_tile:";
+        }
         return emoji;
     }
 }
