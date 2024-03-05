@@ -15,9 +15,6 @@ public enum BuildingType {
     private BuildingType (String emoji) {
         this.emoji = emoji;
     }
-    public String getEmoji() {
-        return emoji;
-    }
     @Override
     public String toString () {
         if (this.emoji == null) {

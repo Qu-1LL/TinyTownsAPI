@@ -12,9 +12,6 @@ public enum Resource {
     private Resource (String emoji) {
         this.emoji = emoji;
     }
-    public String getEmoji() {
-        return emoji;
-    }
     @Override
     public String toString () {
         if (this.emoji == null) {
