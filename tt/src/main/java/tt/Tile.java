@@ -30,9 +30,11 @@ public class Tile<E> {
 
     public BuildingType getBuilding() {
         try {
-            if (object.getClass().getName() == "tt.Building") {
-                return object.getType();
+            if (object instanceof Building) {
+                Building otherBuilding = (Building) object;
+                return otherBuilding.getType();
                 /*can't figure out what to do to get rid of this error, lmk */
+                //womp womp i fixed it  -society
             }
         } catch(NullPointerException e) {}
         return null;
