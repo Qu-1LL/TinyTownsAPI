@@ -2,9 +2,9 @@ package tt;
 
 public enum Resource {
     BRICK(":resource_brick:"),
-    GLASS(":resource_glass"),
-    STONE(":resource_stone"),
-    WHEAT(":resource_wheat"),
+    GLASS(":resource_glass:"),
+    STONE(":resource_stone:"),
+    WHEAT(":resource_wheat:"),
     WOOD(":resource_wood:");
 
     private String emoji;
