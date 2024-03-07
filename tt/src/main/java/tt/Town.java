@@ -1,56 +1,71 @@
 package tt;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
 
 public class Town {
-    private Map<Integer,Tile> vertices;
+    private Map<Coordinates,Tile> town;
 
     public Town () {
-        vertices = new HashMap<>();
+        town = new HashMap<>();
     }
-    public void add (E value) {
-        vertices.put(value,new Vertex<>(value));
+    public void add (Tile tile) {
+        town.put(tile.getCoords(),tile);
     }
-    public boolean contains (E value) {
-        return vertices.containsKey (value);
+    public boolean contains (Tile tile) {
+        return town.containsKey (tile.getCoords());
+    }
+    public Tile getTile (Coordinates coords) {
+        return town.get(coords);
     }
     public int size () {
-        return vertices.size();
+        return town.size();
     }
-    @Override
-    public void connectDirected(E a, E b) {
-        Vertex<E> vA = vertices.get(a);
-        Vertex<E> vB = vertices.get(b);
-        vA.connect(vB);   
+    public static void connect(Tile a, Tile b) {
+        if (a.getX() == b.getX()) {
+            if (a.getY() > b.getY()) {
+                a.setSouth(b);
+                b.setNorth(a);
+            }
+            if (a.getY() < b.getY()) {
+                a.setNorth(b);
+                b.setSouth(a);
+            }
+        }
+        if (a.getY() == b.getY()) {
+            if (a.getX() > b.getX()) {
+                a.setWest(b);
+                b.setEast(a);
+            }
+            if (a.getX() < b.getX()) {
+                a.setEast(b);
+                b.setWest(a);
+            }
+        }
     }
-    @Override
-    public void connectUndirected(E a, E b) {
-        Vertex<E> vA = vertices.get(a);
-        Vertex<E> vB = vertices.get(b);
-        vA.connect(vB);
-        vB.connect(vA);
-    }
-    @Override
-    public boolean connected(E a, E b) {
-        return vertices.get(a).connected(vertices.get(b));
+    public boolean connected(Tile a, Tile b) {
+        return a.North() == b || a.East() == b || a.South() == b || a.West() == b;
     }
     @Override 
     public String toString () {
-        return vertices.toString();
+        String tstring = "";
+        Tile curtile = town.get(new Coordinates(0,0));
+        Tile oldtile = curtile;
+        while (true) {
+            tstring += curtile.toString();
+            curtile = curtile.East();
+            if (curtile == null) {
+                tstring += "\n";
+                curtile = oldtile.South();
+                oldtile = curtile;
+            }
+            if (curtile == null) {
+                break;
+            }
+        }
+        return tstring;
     }
     public static void main (String[] Args) {
-        AdjacencyGraph<String> graph = new AdjacencyGraph<>();
-        String S = null;
-        String T = null;
-        graph.add(S);
-        graph.add(T);
-        System.out.println(graph);
+        
     }
 }

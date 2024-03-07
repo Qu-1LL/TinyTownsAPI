@@ -1,8 +1,7 @@
 package tt;
 
 public class Tile {
-    private final int x;
-    private final int y;
+    private final Coordinates coords;
     private Holdable object;
     private Tile north;
     private Tile south;
@@ -10,33 +9,46 @@ public class Tile {
     private Tile west;
 
     public Tile (int x, int y, Holdable object) {
-        this.x = x;
-        this.y = y;
+        this.coords = new Coordinates(x,y);
         this.object = object;
     }
     public Tile (int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.coords = new Coordinates(x,y);
         this.object = Resource.EMPTY;
     }
 
     public int getX() {
-        return x;
+        return coords.getX();
     }
     public int getY() {
-        return y;
+        return coords.getY();
     }
-    public Tile getNorth() {
+    public Coordinates getCoords() {
+        return coords;
+    }
+    public Tile North() {
         return north;
     }
-    public Tile getSouth() {
+    public void setNorth(Tile north) {
+        this.north = north;
+    }
+    public Tile South() {
         return south;
     }
-    public Tile getEast() {
+    public void setSouth(Tile south) {
+        this.south = south;
+    }
+    public Tile East() {
         return east;
     }
-    public Tile getWest() {
+    public void setEast(Tile east) {
+        this.east = east;
+    }
+    public Tile West() {
         return west;
+    }
+    public void setWest(Tile west) {
+        this.west = west;
     }
 
     public Resource getResource() {
@@ -70,6 +82,26 @@ public class Tile {
             Holdable ret = object;
             object = Resource.EMPTY;
             return (Resource)ret;
+        }
+        return null;
+    }
+
+    public void setResource(Resource resource) {
+        if (object instanceof Resource) {
+            if (object == Resource.EMPTY) {
+                object = resource;
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (object instanceof Resource) {
+            return object.toString();
+        } else {
+            if (object instanceof Building) {
+                return this.getBuildingType().toString();
+            }
         }
         return null;
     }
