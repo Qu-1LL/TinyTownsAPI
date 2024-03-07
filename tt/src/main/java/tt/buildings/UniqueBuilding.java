@@ -3,9 +3,9 @@ package tt.buildings;
 import tt.Building;
 import tt.BuildingType;
 import tt.Resource;
-import tt.BuildingColor;
+import tt.Color;
 
-public class UniqueBuilding extends BuildingColor implements Building {
+public class UniqueBuilding extends Color implements Building {
     private final Resource[][] schematic;
 
 
