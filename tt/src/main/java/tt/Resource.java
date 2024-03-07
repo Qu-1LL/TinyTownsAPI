@@ -6,7 +6,7 @@ public enum Resource implements Holdable {
     STONE(":white_large_square:",false),
     WHEAT(":yellow_square:",false),
     WOOD(":brown_square:",false),
-    EMPTY(":empty_tile:",true);
+    EMPTY("<:empty_tile:1215119529739419688>",true);
 
     private String emoji;
     private boolean empty;
