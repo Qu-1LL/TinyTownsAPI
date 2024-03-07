@@ -22,7 +22,7 @@ public class BotTestingMessage extends ListenerAdapter {
     public BotTestingMessage() throws LoginException {
         JDABuilder builder = JDABuilder.createDefault(BOT_TOKEN);
         // Enable the MESSAGE_CONTENT intent
-        builder.enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.MESSAGE_CONTENT);
+        builder.enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT);
         // Set member cache policy to CACHE_NONE to avoid unnecessary caching
         builder.setMemberCachePolicy(MemberCachePolicy.NONE);
         builder.addEventListeners(this); // Register the bot as an event listener
@@ -38,7 +38,7 @@ public class BotTestingMessage extends ListenerAdapter {
             // Check if the message was sent in the channel named "da-bot-home"
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(CHANNEL_NAME, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(CHANNEL_NAME, true).get(0);
-                homeChannel.sendMessage("I received the message 'TesterTester'!").queue();
+                homeChannel.sendMessage("OOgaBooga").queue();
             } else {
                 channel.sendMessage("I received the message 'TesterTester', but could not find the home channel.").queue();
             }

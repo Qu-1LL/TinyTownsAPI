@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "MainBot",
+            "request": "launch",
+            "mainClass": "tt.jda.MainBot",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "tt.Main",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
+            "name": "UniqueBuilding",
+            "request": "launch",
+            "mainClass": "tt.buildings.UniqueBuilding",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
+            "name": "BotTestingMessage",
+            "request": "launch",
+            "mainClass": "tt.jda.BotTestingMessage",
+            "projectName": "tt"
+        }
+    ]
+}
