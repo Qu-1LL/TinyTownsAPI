@@ -1,7 +1,5 @@
 package tt;
 
-import java.lang.NullPointerException;
-
 public class Tile {
     public final int x;
     public final int y;
@@ -16,21 +14,27 @@ public class Tile {
     public Tile (int x, int y) {
         this.x = x;
         this.y = y;
-        this.object = null;
+        this.object = Resource.EMPTY;
     }
 
-    public Holdable getResource() {
-        try {
-            if (object instanceof Resource) {
-                return object;
-            }
-        } catch(NullPointerException e) {}
+    public Resource getResource() {
+        if (object instanceof Resource) {
+            return (Resource)object;
+        }
         return null;
     }
 
-    public Holdable getBuilding() {
+    public Building getBuilding() {
         if (object instanceof Building) {
-            return object;
+            return (Building)object;
+        }
+        return null;
+    }
+
+    public BuildingType getBuildingType() {
+        if (object instanceof Building) {
+            Building ret = (Building)object;
+            return ret.getType();
         }
         return null;
     }
@@ -39,11 +43,11 @@ public class Tile {
         return object == Resource.EMPTY;
     }
 
-    public Holdable removeResource() {
+    public Resource removeResource() {
         if (object instanceof Resource && object != Resource.EMPTY) {
             Holdable ret = object;
             object = Resource.EMPTY;
-            return ret;
+            return (Resource)ret;
         }
         return null;
     }

@@ -10,59 +10,59 @@ import org.junit.Test;
 
 public class TileTest {
     @Test
-    public void getBuildingTest1 () {
-        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding(BuildingType.YELLOW));
-        BuildingType actual = tile.getBuilding();
+    public void getBuildingTypeTest1 () {
+        Tile tile = new Tile(0,0,new UniqueBuilding(BuildingType.YELLOW));
+        BuildingType actual = tile.getBuildingType();
         BuildingType expected = BuildingType.YELLOW;
         assertEquals(expected,actual);
     }
     @Test
-    public void getBuildingTest2 () {
-        Tile<Holdable> tile = new Tile<>(0,0);
-        BuildingType actual = tile.getBuilding();
+    public void getBuildingTypeTest2 () {
+        Tile tile = new Tile(0,0);
+        BuildingType actual = tile.getBuildingType();
         BuildingType expected = null;
         assertEquals(expected,actual);
     }
     @Test
     public void getResourceTest3 () {
-        Tile<Resource> tile = new Tile<>(0,0,Resource.BRICK);
+        Tile tile = new Tile(0,0,Resource.BRICK);
         Resource actual = tile.getResource();
         Resource expected = Resource.BRICK;
         assertEquals(expected,actual);
     }
     @Test
     public void getResourceTest4 () {
-        Tile<Resource> tile = new Tile<>(0,0);
+        Tile tile = new Tile(0,0);
         Resource actual = tile.getResource();
-        Resource expected = null;
+        Resource expected = Resource.EMPTY;
         assertEquals(expected,actual);
     }
     @Test
     public void removeResourceTest5 () {
-        Tile<Resource> tile = new Tile<>(0,0);
+        Tile tile = new Tile(0,0);
         Resource actual1 = tile.removeResource();
         Resource expected1 = null;
         Resource actual2 = tile.getResource();
-        Resource expected2 = null;
+        Resource expected2 = Resource.EMPTY;
         assertEquals(expected1,actual1);
         assertEquals(expected2,actual2);
     }
     @Test
     public void removeResourceTest6 () {
-        Tile<Resource> tile = new Tile<>(0,0,Resource.BRICK);
+        Tile tile = new Tile(0,0,Resource.BRICK);
         Resource actual1 = tile.getResource();
         Resource expected1 = Resource.BRICK;
         Resource actual2 = tile.removeResource();
         Resource expected2 = Resource.BRICK;
         Resource actual3 = tile.getResource();
-        Resource expected3 = null;
+        Resource expected3 = Resource.EMPTY;
         assertEquals(expected1,actual1);
         assertEquals(expected2,actual2);
         assertEquals(expected3,actual3);
     }
     @Test
     public void removeResourceTest7 () {
-        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding());
+        Tile tile = new Tile(0,0,new UniqueBuilding());
         Holdable actual1 = tile.removeResource();
         Holdable expected1 = null;
         Holdable actual2 = tile.getResource();
@@ -72,25 +72,25 @@ public class TileTest {
     }
     @Test
     public void isEmptyTest8 () {
-        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding());
+        Tile tile = new Tile(0,0,new UniqueBuilding());
         boolean actual = tile.isEmpty();
         assertFalse(actual);
     }
     @Test
     public void isEmptyTest9 () {
-        Tile<Resource> tile = new Tile<>(0,0,Resource.BRICK);
+        Tile tile = new Tile(0,0,Resource.BRICK);
         boolean actual = tile.isEmpty();
         assertFalse(actual);
     }
     @Test
     public void isEmptyTest10 () {
-        Tile<Resource> tile = new Tile<>(0,0);
+        Tile tile = new Tile(0,0);
         boolean actual = tile.isEmpty();
         assertTrue(actual);
     }
     @Test
     public void isEmptyTest11 () {
-        Tile<Holdable> tile = new Tile<>(0,0);
+        Tile tile = new Tile(0,0);
         boolean actual = tile.isEmpty();
         assertTrue(actual);
     }
