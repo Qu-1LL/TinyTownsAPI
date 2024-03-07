@@ -33,22 +33,22 @@ public class Tile<E> {
             if (object instanceof Building) {
                 Building otherBuilding = (Building) object;
                 return otherBuilding.getType();
-                /*can't figure out what to do to get rid of this error, lmk */
-                //womp womp i fixed it  -society
             }
         } catch(NullPointerException e) {}
         return null;
     }
 
     public boolean isEmpty() {
-        return object == null;
+        return object == Resource.EMPTY;
     }
 
     public E removeResource() {
         try {
             if (object instanceof Resource) {
                 E ret = object;
-                object = null;
+                try {
+                    object = Resource.EMPTY;
+                } finally {}
                 return ret;
             }
         } catch(NullPointerException e) {}
