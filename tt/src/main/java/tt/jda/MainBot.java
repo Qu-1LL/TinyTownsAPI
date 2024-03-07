@@ -39,21 +39,21 @@ public class MainBot extends ListenerAdapter{
         new CustomListener(jda, channel, sendMessage, ifMessage);
     }
     
-    //       TESTTTTTTT
-    // public void main(String[] args) {
-    //     try {
-    //         MainBot bot = new MainBot();
-    //         bot.ifMessageSendMessage("Test", "<:grey_building:1215116257783848970>");
-    //     } catch (LoginException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
+    
     public static void main(String[] args) {
         try {
-            new MainBot();
+            MainBot bot = new MainBot();
+            bot.ifMessageSendMessage("Test", "<:grey_building:1215116257783848970>");
         } catch (LoginException e) {
             e.printStackTrace();
         }
     }
+
+    // public static void main(String[] args) {
+    //     try {
+    //         new MainBot();
+    //     } catch (LoginException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

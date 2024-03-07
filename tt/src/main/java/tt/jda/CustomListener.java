@@ -35,6 +35,5 @@ public class CustomListener extends ListenerAdapter {
                 eChannel.sendMessage("Error").queue();
             }
         }
-        jda.removeEventListener(this);
     }
 }
