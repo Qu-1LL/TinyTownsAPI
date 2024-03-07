@@ -38,16 +38,20 @@ public class MainBot extends ListenerAdapter{
     public void ifMessageSendMessage(String ifMessage, String sendMessage){
         new CustomListener(jda, channel, sendMessage, ifMessage);
     }
-    
-    
-    public static void main(String[] args) {
-        try {
-            MainBot bot = new MainBot();
-            bot.ifMessageSendMessage("Test", "<:grey_building:1215116257783848970>");
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
+    public void makeMyTowns() {
+        new TownMaker(jda, channel);
     }
+
+    
+    
+    // public static void main(String[] args) {
+    //     try {
+    //         MainBot bot = new MainBot();
+    //         bot.ifMessageSendMessage("Test", "<:grey_building:1215116257783848970>");
+    //     } catch (LoginException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     // public static void main(String[] args) {
     //     try {
@@ -56,4 +60,13 @@ public class MainBot extends ListenerAdapter{
     //         e.printStackTrace();
     //     }
     // }
+
+    public static void main (String[] args) {
+        try {
+            MainBot bot = new MainBot();
+            bot.makeMyTowns();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+    }
 }

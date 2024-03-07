@@ -4,40 +4,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Town {
-    private Map<Coordinates,Tile> town;
+    private Map<String,Tile> town;
+    private int size;
 
-    public Town () {
-        town = new HashMap<>();
+    public Town (int size) {
+        town = new HashMap<String,Tile>();
+        this.size = size;
+        this.fillTown();
     }
     public void add (Tile tile) {
         town.put(tile.getCoords(),tile);
     }
     public boolean contains (Tile tile) {
-        return town.containsKey (tile.getCoords());
+        return town.containsKey(tile.getCoords());
     }
-    public Tile getTile (Coordinates coords) {
-        return town.get(coords);
+    public Tile getTile (int x, int y) {
+        return town.get(toCoords(x,y));
     }
     public int size () {
-        return town.size();
+        return size;
+    }
+    public static String toCoords(int x, int y) {
+        return x + " " + y;
     }
     public static void connect(Tile a, Tile b) {
         if (a.getX() == b.getX()) {
-            if (a.getY() > b.getY()) {
+            if (a.getY()-1 == b.getY()) {
                 a.setSouth(b);
                 b.setNorth(a);
             }
-            if (a.getY() < b.getY()) {
+            if (a.getY()+1 == b.getY()) {
                 a.setNorth(b);
                 b.setSouth(a);
             }
         }
         if (a.getY() == b.getY()) {
-            if (a.getX() > b.getX()) {
+            if (a.getX()-1 == b.getX()) {
                 a.setWest(b);
                 b.setEast(a);
             }
-            if (a.getX() < b.getX()) {
+            if (a.getX()+1 == b.getX()) {
                 a.setEast(b);
                 b.setWest(a);
             }
@@ -46,26 +52,37 @@ public class Town {
     public boolean connected(Tile a, Tile b) {
         return a.North() == b || a.East() == b || a.South() == b || a.West() == b;
     }
+    private void fillTown () {
+        Tile curtile;
+        for (int i = 0;i < size;i++) {
+            for (int j = 0;j < size; j++) {
+                curtile = new Tile(j,i);
+                town.put(curtile.getCoords(),curtile);
+                if (j != 0) {
+                    curtile.setWest(town.get(toCoords(j-1,i)));
+                }
+                if (i != 0) {
+                    curtile.setNorth(town.get(toCoords(j,i-1)));
+                }
+            }
+        }
+
+    }
     @Override 
     public String toString () {
         String tstring = "";
-        Tile curtile = town.get(new Coordinates(0,0));
-        Tile oldtile = curtile;
-        while (true) {
-            tstring += curtile.toString();
-            curtile = curtile.East();
-            if (curtile == null) {
-                tstring += "\n";
-                curtile = oldtile.South();
-                oldtile = curtile;
+        Tile curtile = town.get(toCoords(0,0));
+        for (int i = 0;i < size;i++) {
+            for (int j = 0;j < size; j++) {
+                curtile = town.get(toCoords(j,i));
+                tstring += curtile.toString();
             }
-            if (curtile == null) {
-                break;
-            }
+            tstring += "\n";
         }
         return tstring;
     }
     public static void main (String[] Args) {
-        
+        Town town = new Town(4);
+        System.out.println(town);
     }
 }

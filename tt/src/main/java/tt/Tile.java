@@ -1,30 +1,37 @@
 package tt;
 
+import java.util.Set;
+import java.util.HashSet;
+
 public class Tile {
-    private final Coordinates coords;
+    private final int x;
+    private final int y;
     private Holdable object;
     private Tile north;
     private Tile south;
     private Tile east;
     private Tile west;
 
+
     public Tile (int x, int y, Holdable object) {
-        this.coords = new Coordinates(x,y);
+        this.x = x;
+        this.y = y;
         this.object = object;
     }
     public Tile (int x, int y) {
-        this.coords = new Coordinates(x,y);
+        this.x = x;
+        this.y = y;
         this.object = Resource.EMPTY;
     }
 
     public int getX() {
-        return coords.getX();
+        return x;
     }
     public int getY() {
-        return coords.getY();
+        return y;
     }
-    public Coordinates getCoords() {
-        return coords;
+    public String getCoords() {
+        return x + " " + y;
     }
     public Tile North() {
         return north;
@@ -49,6 +56,14 @@ public class Tile {
     }
     public void setWest(Tile west) {
         this.west = west;
+    }
+    public Set<Tile> getAdjacent() {
+        Set<Tile> adjacent = new HashSet<>();
+        adjacent.add(north);
+        adjacent.add(south);
+        adjacent.add(east);
+        adjacent.add(west);
+        return adjacent;
     }
 
     public Resource getResource() {

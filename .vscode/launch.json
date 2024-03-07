@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Town",
+            "request": "launch",
+            "mainClass": "tt.Town",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
             "name": "MainBot",
             "request": "launch",
             "mainClass": "tt.jda.MainBot",
