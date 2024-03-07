@@ -4,6 +4,7 @@ import tt.Holdable;
 import tt.BuildingType;
 import tt.Resource;
 import tt.Building;
+import tt.Town;
 
 public class UniqueBuilding extends Building implements Holdable {
 
@@ -31,7 +32,7 @@ public class UniqueBuilding extends Building implements Holdable {
         "This building is only to be used for testing purposes.\n";
     }
     @Override
-    public int getScore() {
+    public int getScore(Town town) {
         return 1;
     }
 

@@ -1,10 +1,13 @@
 package tt;
 
 public class Tile {
-    public final int x;
-    public final int y;
-    public Holdable object;
-
+    private final int x;
+    private final int y;
+    private Holdable object;
+    private Tile north;
+    private Tile south;
+    private Tile east;
+    private Tile west;
 
     public Tile (int x, int y, Holdable object) {
         this.x = x;
@@ -15,6 +18,25 @@ public class Tile {
         this.x = x;
         this.y = y;
         this.object = Resource.EMPTY;
+    }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+    public Tile getNorth() {
+        return north;
+    }
+    public Tile getSouth() {
+        return south;
+    }
+    public Tile getEast() {
+        return east;
+    }
+    public Tile getWest() {
+        return west;
     }
 
     public Resource getResource() {
