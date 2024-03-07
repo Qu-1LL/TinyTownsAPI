@@ -2,13 +2,13 @@ package tt;
 
 import java.lang.NullPointerException;
 
-public class Tile<E> {
+public class Tile {
     public final int x;
     public final int y;
-    public E object;
+    public Holdable object;
 
 
-    public Tile (int x, int y, E object) {
+    public Tile (int x, int y, Holdable object) {
         this.x = x;
         this.y = y;
         this.object = object;
@@ -19,7 +19,7 @@ public class Tile<E> {
         this.object = null;
     }
 
-    public E getResource() {
+    public Holdable getResource() {
         try {
             if (object instanceof Resource) {
                 return object;
@@ -28,13 +28,10 @@ public class Tile<E> {
         return null;
     }
 
-    public BuildingType getBuilding() {
-        try {
-            if (object instanceof Building) {
-                Building otherBuilding = (Building) object;
-                return otherBuilding.getType();
-            }
-        } catch(NullPointerException e) {}
+    public Holdable getBuilding() {
+        if (object instanceof Building) {
+            return object;
+        }
         return null;
     }
 
@@ -42,16 +39,12 @@ public class Tile<E> {
         return object == Resource.EMPTY;
     }
 
-    public E removeResource() {
-        try {
-            if (object instanceof Resource) {
-                E ret = object;
-                try {
-                    object = Resource.EMPTY;
-                } finally {}
-                return ret;
-            }
-        } catch(NullPointerException e) {}
+    public Holdable removeResource() {
+        if (object instanceof Resource && object != Resource.EMPTY) {
+            Holdable ret = object;
+            object = Resource.EMPTY;
+            return ret;
+        }
         return null;
     }
 }

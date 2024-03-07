@@ -1,11 +1,11 @@
 package tt.buildings;
 
-import tt.Building;
+import tt.Holdable;
 import tt.BuildingType;
 import tt.Resource;
-import tt.Foundation;
+import tt.Building;
 
-public class UniqueBuilding extends Foundation implements Building {
+public class UniqueBuilding extends Building implements Holdable {
 
     public UniqueBuilding (BuildingType type, Resource[][] schematic) {
         super("Unique Building",type,schematic);
@@ -20,6 +20,10 @@ public class UniqueBuilding extends Foundation implements Building {
     public UniqueBuilding () {
         super("Unique Building",null,new Resource[1][1]);
         this.getSchematic()[0][0] = Resource.BRICK;
+    }
+    @Override
+    public Holdable getHeld() {
+        return this;
     }
     @Override
     public String getRules () {
@@ -37,10 +41,10 @@ public class UniqueBuilding extends Foundation implements Building {
         schem[0][1] = Resource.BRICK;
         schem[1][0] = Resource.EMPTY;
         schem[1][1] = Resource.GLASS;
-        Building build1 = new UniqueBuilding(schem);
+        Holdable build1 = new UniqueBuilding(schem);
         System.out.println(build1);
 
-        Building build2 = new UniqueBuilding();
+        Holdable build2 = new UniqueBuilding();
         System.out.println(build2);
     }
 }

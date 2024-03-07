@@ -11,14 +11,14 @@ import org.junit.Test;
 public class TileTest {
     @Test
     public void getBuildingTest1 () {
-        Tile<Building> tile = new Tile<>(0,0,new UniqueBuilding(BuildingType.YELLOW));
+        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding(BuildingType.YELLOW));
         BuildingType actual = tile.getBuilding();
         BuildingType expected = BuildingType.YELLOW;
         assertEquals(expected,actual);
     }
     @Test
     public void getBuildingTest2 () {
-        Tile<Building> tile = new Tile<>(0,0);
+        Tile<Holdable> tile = new Tile<>(0,0);
         BuildingType actual = tile.getBuilding();
         BuildingType expected = null;
         assertEquals(expected,actual);
@@ -62,17 +62,17 @@ public class TileTest {
     }
     @Test
     public void removeResourceTest7 () {
-        Tile<Building> tile = new Tile<>(0,0,new UniqueBuilding());
-        Building actual1 = tile.removeResource();
-        Building expected1 = null;
-        Building actual2 = tile.getResource();
-        Building expected2 = null;
+        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding());
+        Holdable actual1 = tile.removeResource();
+        Holdable expected1 = null;
+        Holdable actual2 = tile.getResource();
+        Holdable expected2 = null;
         assertEquals(expected1,actual1);
         assertEquals(expected2,actual2);
     }
     @Test
     public void isEmptyTest8 () {
-        Tile<Building> tile = new Tile<>(0,0,new UniqueBuilding());
+        Tile<Holdable> tile = new Tile<>(0,0,new UniqueBuilding());
         boolean actual = tile.isEmpty();
         assertFalse(actual);
     }
@@ -90,7 +90,7 @@ public class TileTest {
     }
     @Test
     public void isEmptyTest11 () {
-        Tile<Building> tile = new Tile<>(0,0);
+        Tile<Holdable> tile = new Tile<>(0,0);
         boolean actual = tile.isEmpty();
         assertTrue(actual);
     }
