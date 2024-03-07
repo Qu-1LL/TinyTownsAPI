@@ -3,33 +3,29 @@ package tt.buildings;
 import tt.Building;
 import tt.BuildingType;
 import tt.Resource;
+import tt.BuildingColor;
 
-public class UniqueBuilding implements Building {
-    private final BuildingType type;
+public class UniqueBuilding extends BuildingColor implements Building {
     private final Resource[][] schematic;
 
 
     public UniqueBuilding (BuildingType type, Resource[][] schematic) {
-        this.type = type;
+        super(type);
         this.schematic = schematic;
     }
     public UniqueBuilding (Resource[][] schematic) {
-        this.type = null;
+        super(null);
         this.schematic = schematic;
     }
     public UniqueBuilding (BuildingType type) {
-        this.type = type;
+        super(type);
         this.schematic = new Resource[1][1];
         schematic[0][0] = Resource.BRICK;
     }
     public UniqueBuilding () {
-        this.type = null;
+        super(null);
         this.schematic = new Resource[1][1];
         schematic[0][0] = Resource.BRICK;
-    }
-
-    public BuildingType getType () {
-        return this.type;
     }
     public String getRules () {
         return "This building scores 1 point.\nTo only be used for testing purposes.\n";

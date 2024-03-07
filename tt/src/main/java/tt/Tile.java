@@ -21,7 +21,7 @@ public class Tile<E> {
 
     public E getResource() {
         try {
-            if (object.getClass().getName() == "tt.Resource") {
+            if (object instanceof Resource) {
                 return object;
             }
         } catch(NullPointerException e) {}
@@ -46,7 +46,7 @@ public class Tile<E> {
 
     public E removeResource() {
         try {
-            if (object.getClass().getName() == "tt.Resource") {
+            if (object instanceof Resource) {
                 E ret = object;
                 object = null;
                 return ret;
