@@ -1,11 +1,11 @@
 package tt;
 
 public enum Resource {
-    BRICK(":resource_brick:",false),
-    GLASS(":resource_glass:",false),
-    STONE(":resource_stone:",false),
-    WHEAT(":resource_wheat:",false),
-    WOOD(":resource_wood:",false),
+    BRICK(":red_square:",false),
+    GLASS(":blue_square:",false),
+    STONE(":white_large_square:",false),
+    WHEAT(":yellow_square:",false),
+    WOOD(":brown_square:",false),
     EMPTY(":empty_tile:",true);
 
     private String emoji;
