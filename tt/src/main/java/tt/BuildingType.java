@@ -1,14 +1,14 @@
 package tt;
 
 public enum BuildingType {
-    COTTAGE(":cottage_building:"),
+    COTTAGE(":cottage:"),
     YELLOW(":yellow_building:"),
     ORANGE(":orange_building:"),
     RED(":red_building:"),
     GREEN(":green_building:"),
     NAVY(":navy_building:"),
     GREY(":grey_building:"),
-    MONUMENT(":monument_building:");
+    MONUMENT(":monument:");
 
     private String emoji;
 

@@ -1,14 +1,12 @@
 package tt;
 
-import java.lang.NullPointerException;
-
-public class Tile<E> {
+public class Tile {
     public final int x;
     public final int y;
-    public E object;
+    public Holdable object;
 
 
-    public Tile (int x, int y, E object) {
+    public Tile (int x, int y, Holdable object) {
         this.x = x;
         this.y = y;
         this.object = object;
@@ -16,42 +14,41 @@ public class Tile<E> {
     public Tile (int x, int y) {
         this.x = x;
         this.y = y;
-        this.object = null;
+        this.object = Resource.EMPTY;
     }
 
-    public E getResource() {
-        try {
-            if (object instanceof Resource) {
-                return object;
-            }
-        } catch(NullPointerException e) {}
+    public Resource getResource() {
+        if (object instanceof Resource) {
+            return (Resource)object;
+        }
         return null;
     }
 
-    public BuildingType getBuilding() {
-        try {
-            if (object instanceof Building) {
-                Building otherBuilding = (Building) object;
-                return otherBuilding.getType();
-                /*can't figure out what to do to get rid of this error, lmk */
-                //womp womp i fixed it  -society
-            }
-        } catch(NullPointerException e) {}
+    public Building getBuilding() {
+        if (object instanceof Building) {
+            return (Building)object;
+        }
+        return null;
+    }
+
+    public BuildingType getBuildingType() {
+        if (object instanceof Building) {
+            Building ret = (Building)object;
+            return ret.getType();
+        }
         return null;
     }
 
     public boolean isEmpty() {
-        return object == null;
+        return object == Resource.EMPTY;
     }
 
-    public E removeResource() {
-        try {
-            if (object instanceof Resource) {
-                E ret = object;
-                object = null;
-                return ret;
-            }
-        } catch(NullPointerException e) {}
+    public Resource removeResource() {
+        if (object instanceof Resource && object != Resource.EMPTY) {
+            Holdable ret = object;
+            object = Resource.EMPTY;
+            return (Resource)ret;
+        }
         return null;
     }
 }
