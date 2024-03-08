@@ -33,8 +33,32 @@ public class TownMaker extends ListenerAdapter {
             towns[i] = new Town(4);
         }
     }
-    private void buildTown(int x, int y, int index) {
-        towns[index].build(x-1,y-1);
+    private void buildTown(String type, int x, int y, int index) {
+        if (type.equalsIgnoreCase("cottage")) {
+            towns[index].build(x-1,y-1,BuildingType.COTTAGE);
+        }
+        if (type.equalsIgnoreCase("monument")) {
+            towns[index].build(x-1,y-1,BuildingType.MONUMENT);
+        }
+        if (type.equalsIgnoreCase("yellow")) {
+            towns[index].build(x-1,y-1,BuildingType.YELLOW);
+        }
+        if (type.equalsIgnoreCase("orange")) {
+            towns[index].build(x-1,y-1,BuildingType.ORANGE);
+        }
+        if (type.equalsIgnoreCase("red")) {
+            towns[index].build(x-1,y-1,BuildingType.RED);
+        }
+        if (type.equalsIgnoreCase("navy")) {
+            towns[index].build(x-1,y-1,BuildingType.NAVY);
+        }
+        if (type.equalsIgnoreCase("green")) {
+            towns[index].build(x-1,y-1,BuildingType.GREEN);
+        }
+        if (type.equalsIgnoreCase("grey")) {
+            towns[index].build(x-1,y-1,BuildingType.GREY);
+        }
+        
     }
     private void addResource(String resource, int x, int y, int index) {
         if (resource.equalsIgnoreCase("brick")) {
@@ -80,8 +104,8 @@ public class TownMaker extends ListenerAdapter {
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
                 
-                int index = Integer.parseInt(parsedmessage[4])-1;
-                buildTown(Integer.parseInt(parsedmessage[2]),Integer.parseInt(parsedmessage[3]),index);
+                int index = Integer.parseInt(parsedmessage[5])-1;
+                buildTown((String)parsedmessage[2],Integer.parseInt(parsedmessage[3]),Integer.parseInt(parsedmessage[4]),index);
                 homeChannel.sendMessage("Town: " + index);
                 homeChannel.sendMessage(towns[index].toString()).queue();
             } else {

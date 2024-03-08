@@ -28,9 +28,9 @@ public class Town {
     public static String toCoords(int x, int y) {
         return x + " " + y;
     }
-    public void build (int x, int y) {
+    public void build (int x, int y, BuildingType type) {
         Tile tobuild = town.get(toCoords(x,y));
-        tobuild.build(new UniqueBuilding(BuildingType.COTTAGE));
+        tobuild.build(new UniqueBuilding(type));
     }
     public int score() {
         int score = 0;
