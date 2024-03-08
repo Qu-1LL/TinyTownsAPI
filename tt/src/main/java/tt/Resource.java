@@ -1,12 +1,12 @@
 package tt;
 
 public enum Resource implements Holdable {
-    BRICK(":red_square:",false),
-    GLASS(":blue_square:",false),
-    STONE(":white_large_square:",false),
-    WHEAT(":yellow_square:",false),
-    WOOD(":brown_square:",false),
-    EMPTY("<:empty_tile:1215119529739419688>",true);
+    BRICK("<:brick_new:1215769685073858680>",false),
+    GLASS("<:glass_new:1215769467435483266>",false),
+    STONE("<:stone_new:1215769584758558821>",false),
+    WHEAT("<:wheat_new:1215769538142933002>",false),
+    WOOD("<:wood_new:1215769728136515724>",false),
+    EMPTY("<:empty_tile:1215710638714654751>",true);
 
     private String emoji;
     private boolean empty;

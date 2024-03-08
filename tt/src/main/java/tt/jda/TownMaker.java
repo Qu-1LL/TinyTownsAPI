@@ -12,11 +12,12 @@ public class TownMaker extends ListenerAdapter {
     private final JDA jda;
     private final String textChannelName;
     private int players;
-    private final String[] waitForMessage1 = {"tt","make"};
-    private final String[] waitForMessage2 = {"tt","build"};
-    private final String[] waitForMessage3 = {"tt","resource"};
-    private final String[] waitForMessage4 = {"tt","towns"};
-    private final String[] waitForMessage5 = {"tt","score"};
+    private final String caller = "tt";
+    private final String command1 = "make";
+    private final String command2 = "build";
+    private final String command3 = "resource";
+    private final String command4 = "towns";
+    private final String command5 = "score";
     private Town[] towns;
 
     public TownMaker(JDA jda, String textChannelName) {
@@ -35,8 +36,23 @@ public class TownMaker extends ListenerAdapter {
     private void buildTown(int x, int y, int index) {
         towns[index].build(x-1,y-1);
     }
-    private void addResource(int x, int y, int index) {
-        towns[index].getTile(x-1,y-1).setResource(Resource.BRICK);
+    private void addResource(String resource, int x, int y, int index) {
+        if (resource.equalsIgnoreCase("brick")) {
+            towns[index].getTile(x-1,y-1).setResource(Resource.BRICK);
+        }
+        if (resource.equalsIgnoreCase("glass")) {
+            towns[index].getTile(x-1,y-1).setResource(Resource.GLASS);
+        }
+        if (resource.equalsIgnoreCase("stone")) {
+            towns[index].getTile(x-1,y-1).setResource(Resource.STONE);
+        }
+        if (resource.equalsIgnoreCase("wheat")) {
+            towns[index].getTile(x-1,y-1).setResource(Resource.WHEAT);
+        }
+        if (resource.equalsIgnoreCase("wood")) {
+            towns[index].getTile(x-1,y-1).setResource(Resource.WOOD);
+        }
+
     }
 
     @Override
@@ -45,7 +61,7 @@ public class TownMaker extends ListenerAdapter {
         MessageChannel eChannel = event.getChannel();
         String[] parsedmessage = message.split(" ");
 
-        if (parsedmessage[0].equalsIgnoreCase(waitForMessage1[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage1[1])) {
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command1)) {
             
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
@@ -59,7 +75,7 @@ public class TownMaker extends ListenerAdapter {
                 eChannel.sendMessage("Error").queue();
             }
         }
-        if (parsedmessage[0].equalsIgnoreCase(waitForMessage2[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage2[1])) {
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command2)) {
             
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
@@ -72,20 +88,20 @@ public class TownMaker extends ListenerAdapter {
                 eChannel.sendMessage("Error").queue();
             }
         }
-        if (parsedmessage[0].equalsIgnoreCase(waitForMessage3[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage3[1])) {
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command3)) {
             
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
                 
-                int index = Integer.parseInt(parsedmessage[4])-1;
-                addResource(Integer.parseInt(parsedmessage[2]),Integer.parseInt(parsedmessage[3]),index);
+                int index = Integer.parseInt(parsedmessage[5])-1;
+                addResource((String)parsedmessage[2],Integer.parseInt(parsedmessage[3]),Integer.parseInt(parsedmessage[4]),index);
                 homeChannel.sendMessage("Town: " + index);
                 homeChannel.sendMessage(towns[index].toString()).queue();
             } else {
                 eChannel.sendMessage("Error").queue();
             }
         }
-        if (parsedmessage[0].equalsIgnoreCase(waitForMessage4[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage4[1])) {
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command4)) {
             
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
@@ -98,7 +114,7 @@ public class TownMaker extends ListenerAdapter {
                 eChannel.sendMessage("Error").queue();
             }
         }
-        if (parsedmessage[0].equalsIgnoreCase(waitForMessage5[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage5[1])) {
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command5)) {
             
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
