@@ -16,6 +16,7 @@ public class TownMaker extends ListenerAdapter {
     private final String[] waitForMessage2 = {"tt","build"};
     private final String[] waitForMessage3 = {"tt","resource"};
     private final String[] waitForMessage4 = {"tt","towns"};
+    private final String[] waitForMessage5 = {"tt","score"};
     private Town[] towns;
 
     public TownMaker(JDA jda, String textChannelName) {
@@ -91,6 +92,19 @@ public class TownMaker extends ListenerAdapter {
 
                 for (int i = 0;i < players;i++) {
                     homeChannel.sendMessage("Town: " + (i + 1)).queue();
+                    homeChannel.sendMessage(towns[i].toString()).queue();
+                }
+            } else {
+                eChannel.sendMessage("Error").queue();
+            }
+        }
+        if (parsedmessage[0].equalsIgnoreCase(waitForMessage5[0]) && parsedmessage[1].equalsIgnoreCase(waitForMessage5[1])) {
+            
+            if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
+                MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
+
+                for (int i = 0;i < players;i++) {
+                    homeChannel.sendMessage("Town: " + (i + 1) + " Score: " + towns[i].score()).queue();
                     homeChannel.sendMessage(towns[i].toString()).queue();
                 }
             } else {

@@ -31,7 +31,10 @@ public class Tile {
         return y;
     }
     public String getCoords() {
-        return x + " " + y;
+        return ((Integer)x).toString() + " " + ((Integer)y).toString();
+    }
+    public static String toCoords(int x, int y) {
+        return ((Integer)x).toString() + " " + ((Integer)y).toString();
     }
     public Tile North() {
         return north;
