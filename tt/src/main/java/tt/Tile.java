@@ -88,6 +88,10 @@ public class Tile {
         return null;
     }
 
+    public void build(Holdable building) {
+        object = building;
+    }
+
     public boolean isEmpty() {
         return object == Resource.EMPTY;
     }

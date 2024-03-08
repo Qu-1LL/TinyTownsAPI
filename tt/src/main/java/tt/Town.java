@@ -2,6 +2,7 @@ package tt;
 
 import java.util.HashMap;
 import java.util.Map;
+import tt.buildings.*;
 
 public class Town {
     private Map<String,Tile> town;
@@ -26,6 +27,10 @@ public class Town {
     }
     public static String toCoords(int x, int y) {
         return x + " " + y;
+    }
+    public void build (int x, int y) {
+        Tile tobuild = town.get(toCoords(x,y));
+        tobuild.build(new UniqueBuilding(BuildingType.COTTAGE));
     }
     public static void connect(Tile a, Tile b) {
         if (a.getX() == b.getX()) {
