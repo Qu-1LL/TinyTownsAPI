@@ -113,6 +113,16 @@ public class Tile {
         }
     }
 
+    public int getScore(Town town) {
+        Building building = this.getBuilding();
+        if (building == null) {
+            return -1;
+        } else {
+            return building.getScore(town, x, y);
+        }
+
+    }
+
     @Override
     public String toString() {
         if (object instanceof Resource) {

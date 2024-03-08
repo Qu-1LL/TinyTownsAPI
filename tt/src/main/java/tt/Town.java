@@ -32,6 +32,15 @@ public class Town {
         Tile tobuild = town.get(toCoords(x,y));
         tobuild.build(new UniqueBuilding(BuildingType.COTTAGE));
     }
+    public int score() {
+        int score = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; i++) {
+                score += town.get(toCoords(j,i)).getScore(this);
+            }
+        }
+        return score;
+    }
     public static void connect(Tile a, Tile b) {
         if (a.getX() == b.getX()) {
             if (a.getY()-1 == b.getY()) {
@@ -71,7 +80,6 @@ public class Town {
                 }
             }
         }
-
     }
     @Override 
     public String toString () {

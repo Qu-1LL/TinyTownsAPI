@@ -32,7 +32,7 @@ public class UniqueBuilding extends Building implements Holdable {
         "This building is only to be used for testing purposes.\n";
     }
     @Override
-    public int getScore(Town town) {
+    public int getScore(Town town, int x, int y) {
         return 1;
     }
 

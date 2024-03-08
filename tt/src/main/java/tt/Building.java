@@ -26,7 +26,7 @@ public abstract class Building {
         "Abuilding can be placed, and has the potential to score you points at the end of the game.\n" +
         "Buildings take up a tile on the board, and can't be moved once they are places.\n";
     }
-    public int getScore(Town town) {
+    public int getScore(Town town, int x, int y) {
         return 0;
     }
     @Override
