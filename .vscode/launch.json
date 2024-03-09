@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Cottage",
+            "request": "launch",
+            "mainClass": "tt.buildings.Cottage",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
             "name": "Town",
             "request": "launch",
             "mainClass": "tt.Town",
