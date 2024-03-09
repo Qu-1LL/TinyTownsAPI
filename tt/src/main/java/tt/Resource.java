@@ -19,10 +19,6 @@ public enum Resource implements Holdable {
         return empty;
     }
     @Override
-    public Holdable getHeld() {
-        return this;
-    }
-    @Override
     public String toString () {
         return emoji;
     }

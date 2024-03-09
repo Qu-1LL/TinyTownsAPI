@@ -2,9 +2,10 @@ package tt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Iterator;
 import tt.buildings.*;
 
-public class Town {
+public class Town implements Iterable<Tile>{
     private Map<String,Tile> town;
     private int size;
 
@@ -80,6 +81,10 @@ public class Town {
                 }
             }
         }
+    }
+    @Override
+    public Iterator<Tile> iterator() {
+
     }
     @Override 
     public String toString () {

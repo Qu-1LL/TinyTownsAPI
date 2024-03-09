@@ -19,10 +19,6 @@ public class UniqueBuilding extends Building implements Holdable {
         this.getSchematic()[0][0] = Resource.BRICK;
     }
     @Override
-    public Holdable getHeld() {
-        return this;
-    }
-    @Override
     public String getRules () {
         return "This building scores 1 point.\n" +
         "This building is only to be used for testing purposes.\n";
