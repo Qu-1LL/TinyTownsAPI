@@ -82,9 +82,10 @@ public class Town implements Iterable<Tile>{
             }
         }
     }
+    
     @Override
     public Iterator<Tile> iterator() {
-
+        return new TownIterator(this);
     }
     @Override 
     public String toString () {

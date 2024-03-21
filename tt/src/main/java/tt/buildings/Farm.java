@@ -18,7 +18,12 @@ public class Farm extends Building implements Holdable{
     }
     @Override
     public int getScore(Town town, int x, int y) {
-        for ()
+        int score = 0;
+        for (Tile tile : town) {
+            if (tile.getBuildingType() == BuildingType.COTTAGE) {
+                score += 3;
+            }
+        }
+        return score;
     }
-
 }

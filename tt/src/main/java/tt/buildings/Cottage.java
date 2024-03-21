@@ -18,10 +18,6 @@ public class Cottage extends Building implements Holdable{
         return "This building scores 3 points if fed.\n" +
         "you can feed a cottage with a red building in your town.\n";
     }
-    @Override
-    public int getScore(Town town, int x, int y) {
-        return 0;
-    }
     public boolean isFed () {
         return isfed;
     }
