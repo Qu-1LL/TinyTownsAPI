@@ -5,7 +5,7 @@ import tt.*;
 public class Farm extends Building implements Holdable{
 
     public Farm () {
-        super("Farm",BuildingType.RED,new Resource[2][2]);
+        super("Farm",BuildingType.RED,new Resource[2][2],4);
         this.getSchematic()[0][0] = Resource.WHEAT;
         this.getSchematic()[0][1] = Resource.WHEAT;
         this.getSchematic()[1][0] = Resource.WOOD;

@@ -73,7 +73,7 @@ public class Tile {
         if (object instanceof Resource) {
             return (Resource)object;
         }
-        return null;
+        return Resource.EMPTY;
     }
 
     public Building getBuilding() {
@@ -91,8 +91,8 @@ public class Tile {
         return null;
     }
 
-    public void build(Holdable building) {
-        object = building;
+    public void build(Building building) {
+        object = (Holdable)building;
     }
 
     public boolean isEmpty() {
