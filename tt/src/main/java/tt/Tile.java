@@ -128,13 +128,13 @@ public class Tile {
 
     @Override
     public String toString() {
-        if (object instanceof Resource) {
+        if (object instanceof Resource && object != Resource.EMPTY) {
             return object.toString();
         } else {
             if (object instanceof Building) {
                 return this.getBuildingType().toString();
             }
         }
-        return null;
+        return Resource.EMPTY.toString();
     }
 }

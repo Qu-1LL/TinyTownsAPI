@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import tt.*;
+import tt.buildings.*;
 
 
 public class TownMaker extends ListenerAdapter {
@@ -35,28 +36,28 @@ public class TownMaker extends ListenerAdapter {
     }
     private void buildTown(String type, int x, int y, int index) {
         if (type.equalsIgnoreCase("cottage")) {
-            towns[index].build(x-1,y-1,BuildingType.COTTAGE);
+            towns[index].build(x-1,y-1,new Cottage());
         }
         if (type.equalsIgnoreCase("monument")) {
-            towns[index].build(x-1,y-1,BuildingType.MONUMENT);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.MONUMENT));
         }
         if (type.equalsIgnoreCase("yellow")) {
-            towns[index].build(x-1,y-1,BuildingType.YELLOW);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.YELLOW));
         }
         if (type.equalsIgnoreCase("orange")) {
-            towns[index].build(x-1,y-1,BuildingType.ORANGE);
+            towns[index].build(x-1,y-1,new Farm());
         }
         if (type.equalsIgnoreCase("red")) {
-            towns[index].build(x-1,y-1,BuildingType.RED);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.RED));
         }
         if (type.equalsIgnoreCase("navy")) {
-            towns[index].build(x-1,y-1,BuildingType.NAVY);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.NAVY));
         }
         if (type.equalsIgnoreCase("green")) {
-            towns[index].build(x-1,y-1,BuildingType.GREEN);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.GREEN));
         }
         if (type.equalsIgnoreCase("grey")) {
-            towns[index].build(x-1,y-1,BuildingType.GREY);
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.GREY));
         }
         
     }
