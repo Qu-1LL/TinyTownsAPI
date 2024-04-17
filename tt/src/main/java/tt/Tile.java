@@ -73,7 +73,7 @@ public class Tile {
         if (object instanceof Resource) {
             return (Resource)object;
         }
-        return Resource.EMPTY;
+        return null;
     }
 
     public Building getBuilding() {

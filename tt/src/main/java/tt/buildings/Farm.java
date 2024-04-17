@@ -23,6 +23,10 @@ public class Farm extends Building implements Holdable{
             if (tile.getBuildingType() == BuildingType.COTTAGE) {
                 score += 3;
             }
+            if (score == 12) {
+                break;
+                
+            }
         }
         return score;
     }
