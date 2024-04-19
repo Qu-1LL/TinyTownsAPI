@@ -45,10 +45,10 @@ public class TownMaker extends ListenerAdapter {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.YELLOW));
         }
         if (type.equalsIgnoreCase("orange")) {
-            towns[index].build(x-1,y-1,new Farm());
+            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.ORANGE));
         }
-        if (type.equalsIgnoreCase("red")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.RED));
+        if (type.equalsIgnoreCase("farm")) {
+            towns[index].build(x-1,y-1,new Farm());
         }
         if (type.equalsIgnoreCase("navy")) {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.NAVY));

@@ -20,7 +20,8 @@ public class Farm extends Building {
     public int getScore(Town town, int x, int y) {
         int score = 0;
         for (Tile tile : town) {
-            if (tile.getBuildingType() == BuildingType.COTTAGE) {
+            if (tile.getBuildingType() == BuildingType.COTTAGE && !((Cottage)tile.getBuilding()).isFed()) {
+                ((Cottage)tile.getBuilding()).feed();
                 score += 3;
             }
             if (score == 12) {

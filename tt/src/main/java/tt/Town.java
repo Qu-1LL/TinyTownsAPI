@@ -26,9 +26,9 @@ public class Town implements Iterable<Tile>{
         }
     }
     public void build (int x, int y, Building building) {
-        if (!canBuild(x,y,building)) {
-            return;
-        }
+        // if (!canBuild(x,y,building)) {
+        //     return;
+        // }
         town.get(Tile.toCoords(x,y)).build(building);
     }
     public int score() {
@@ -80,88 +80,78 @@ public class Town implements Iterable<Tile>{
             }
         }
     }
-    private boolean canBuild (int x, int y, Building building) {
-        if (town.get(Tile.toCoords(x,y)).getResource() == Resource.EMPTY) {
-            return false;
-        }
-        Resource[][] schematic = building.getSchematic();
-        Resource[][] newschem = new Resource[schematic.length][schematic[0].length];
-        for (int i = 1;i < 17;i++) {
 
-            newschem = new Resource[schematic[0].length][schematic.length];
-            for (int j = 0; j < schematic.length; j++) {
-                for (int k = 0; k < schematic[0].length; k++) {
-                    newschem[k][schematic.length-1-j] = schematic[j][k];
-                }
-            }
-            schematic = newschem;
+    // v this code will be prospectively removed and replaced with the "Player.java" class v
 
-            if (i % 4 == 0) {
-                for(int j = 0; j < (schematic.length/2); j++) {
-                    Resource[] temp = schematic[j];
-                    schematic[j] = schematic[schematic.length - j - 1];
-                    schematic[schematic.length - j - 1] = temp;
-                }
-            }
-            if (i % 8 == 0) {
-                for (int j = 0; j < schematic.length; ++j) {  
-                    Resource[] col = schematic[j];
-                    for(int k = 0; k < (col.length/2); k++) {
-                        Resource temp = col[k];
-                        col[k] = schematic[j][col.length - k - 1];
-                        col[col.length - k - 1] = temp;
-                    }
-                }
-            }
+    // private boolean canBuild (int x, int y, Building building) {
+    //     if (town.get(Tile.toCoords(x,y)).getResource() == Resource.EMPTY) {
+    //         return false;
+    //     }
+    //     Resource[][] schematic = building.getSchematic();
+    //     Resource[][] newschem = new Resource[schematic.length][schematic[0].length];
+    //     for (int i = 1;i < 17;i++) {
 
-            if (this.compareSchematic(x,y,schematic)) {
-                return true;
-            };
-        }
+    //         newschem = new Resource[schematic[0].length][schematic.length];
+    //         for (int j = 0; j < schematic.length; j++) {
+    //             for (int k = 0; k < schematic[0].length; k++) {
+    //                 newschem[k][schematic.length-1-j] = schematic[j][k];
+    //             }
+    //         }
+    //         schematic = newschem;
 
-        return false;
-    }
-    private boolean compareSchematic(int x, int y, Resource[][] schematic) {
-        boolean ret = true;
-        for (int xcol = 0;xcol < schematic.length;xcol++) {
-            for (int xrow = 0; xrow < schematic[0].length;xrow++) {
-                ret = true;
-                for (int col = 0;col < schematic.length;col++) {
-                    for (int row = 0;row < schematic[0].length;row++) {
-                        try {
-                            if (!(schematic[col][row] == Resource.EMPTY || schematic[col][row] == town.get(Tile.toCoords(x + row - xrow, y + col - xcol)).getResource())) {
-                                ret = false;
-                            }
-                        } catch (NullPointerException e) {
-                            return false;
-                        }
-                    }
-                }
-                if (ret) {
-                    return ret;
-                }
-            }
-        }
-        return ret;
-    }
+    //         if (i % 4 == 0) {
+    //             for(int j = 0; j < (schematic.length/2); j++) {
+    //                 Resource[] temp = schematic[j];
+    //                 schematic[j] = schematic[schematic.length - j - 1];
+    //                 schematic[schematic.length - j - 1] = temp;
+    //             }
+    //         }
+    //         if (i % 8 == 0) {
+    //             for (int j = 0; j < schematic.length; ++j) {  
+    //                 Resource[] col = schematic[j];
+    //                 for(int k = 0; k < (col.length/2); k++) {
+    //                     Resource temp = col[k];
+    //                     col[k] = schematic[j][col.length - k - 1];
+    //                     col[col.length - k - 1] = temp;
+    //                 }
+    //             }
+    //         }
+
+    //         if (this.compareSchematic(x,y,schematic)) {
+    //             return true;
+    //         };
+    //     }
+
+    //     return false;
+    // }
+    // private boolean compareSchematic(int x, int y, Resource[][] schematic) {
+    //     boolean ret = true;
+    //     for (int xcol = 0;xcol < schematic.length;xcol++) {
+    //         for (int xrow = 0; xrow < schematic[0].length;xrow++) {
+    //             ret = true;
+    //             for (int col = 0;col < schematic.length;col++) {
+    //                 for (int row = 0;row < schematic[0].length;row++) {
+    //                     try {
+    //                         if (!(schematic[col][row] == Resource.EMPTY || schematic[col][row] == town.get(Tile.toCoords(x + row - xrow, y + col - xcol)).getResource())) {
+    //                             ret = false;
+    //                         }
+    //                     } catch (NullPointerException e) {
+    //                         return false;
+    //                     }
+    //                 }
+    //             }
+    //             if (ret) {
+    //                 return ret;
+    //             }
+    //         }
+    //     }
+    //     return ret;
+    // }
 
     @Override
     public Iterator<Tile> iterator() {
         return new TownIterator(this);
     }
-    // @Override 
-    // public String toString () {
-    //     String tstring = "";
-    //     Tile curtile = town.get(Tile.toCoords(0,0));
-    //     for (int i = 0;i < size;i++) {
-    //         for (int j = 0;j < size; j++) {
-    //             curtile = town.get(Tile.toCoords(j,i));
-    //             tstring += curtile.toString();
-    //         }
-    //         tstring += "\n";
-    //     }
-    //     return tstring;
-    // }
     @Override
     public String toString () {
         String tstring = "";
