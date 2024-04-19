@@ -1,6 +1,6 @@
 package tt;
 
-public interface Holdable {
+public interface Tileable {
     public String toPrint();
     
 }

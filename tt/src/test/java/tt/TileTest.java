@@ -63,10 +63,10 @@ public class TileTest {
     @Test
     public void removeResourceTest7 () {
         Tile tile = new Tile(0,0,new UniqueBuilding());
-        Holdable actual1 = tile.removeResource();
-        Holdable expected1 = null;
-        Holdable actual2 = tile.getResource();
-        Holdable expected2 = null;
+        Tileable actual1 = tile.removeResource();
+        Tileable expected1 = null;
+        Tileable actual2 = tile.getResource();
+        Tileable expected2 = null;
         assertEquals(expected1,actual1);
         assertEquals(expected2,actual2);
     }

@@ -6,13 +6,13 @@ import java.util.HashSet;
 public class Tile {
     private final int x;
     private final int y;
-    private Holdable object;
+    private Tileable object;
     private Tile north;
     private Tile south;
     private Tile east;
     private Tile west;
 
-    public Tile (int x, int y, Holdable object) {
+    public Tile (int x, int y, Tileable object) {
         this.x = x;
         this.y = y;
         this.object = object;
@@ -91,7 +91,7 @@ public class Tile {
     }
 
     public void build(Building building) {
-        object = (Holdable)building;
+        object = (Tileable)building;
     }
 
     public boolean isEmpty() {
@@ -100,7 +100,7 @@ public class Tile {
 
     public Resource removeResource() {
         if (object instanceof Resource && object != Resource.EMPTY) {
-            Holdable ret = object;
+            Tileable ret = object;
             object = Resource.EMPTY;
             return (Resource)ret;
         }

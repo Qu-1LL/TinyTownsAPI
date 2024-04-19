@@ -1,6 +1,6 @@
 package tt;
 
-public enum Resource implements Holdable {
+public enum Resource implements Tileable {
     BRICK("<:brick_new:1215769685073858680>",false),
     GLASS("<:glass_new:1215769467435483266>",false),
     STONE("<:stone_new:1215769584758558821>",false),
