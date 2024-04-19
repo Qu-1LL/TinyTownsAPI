@@ -2,7 +2,7 @@ package tt.buildings;
 
 import tt.*;
 
-public class Cottage extends Building implements Holdable{
+public class Cottage extends Building {
     private boolean isfed;
 
     public Cottage () {

@@ -2,7 +2,7 @@ package tt.buildings;
 
 import tt.*;
 
-public class Farm extends Building implements Holdable{
+public class Farm extends Building {
 
     public Farm () {
         super("Farm",BuildingType.RED,new Resource[2][2],4);

@@ -2,7 +2,7 @@ package tt.buildings;
 
 import tt.*;
 
-public class UniqueBuilding extends Building implements Holdable {
+public class UniqueBuilding extends Building {
 
     public UniqueBuilding (BuildingType type, Resource[][] schematic,int size) {
         super("Unique Building",type,schematic,size);

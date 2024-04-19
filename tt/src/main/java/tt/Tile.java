@@ -12,7 +12,6 @@ public class Tile {
     private Tile east;
     private Tile west;
 
-
     public Tile (int x, int y, Holdable object) {
         this.x = x;
         this.y = y;
@@ -127,14 +126,7 @@ public class Tile {
     }
 
     @Override
-    public String toString() {
-        if (object instanceof Resource && object != Resource.EMPTY) {
-            return object.toString();
-        } else {
-            if (object instanceof Building) {
-                return this.getBuildingType().toString();
-            }
-        }
-        return Resource.EMPTY.toString();
+    public String toString () {
+        return object.toPrint();
     }
 }

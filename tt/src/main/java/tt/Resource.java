@@ -19,6 +19,10 @@ public enum Resource implements Holdable {
         return empty;
     }
     @Override
+    public String toPrint () {
+        return emoji;
+    }
+    @Override
     public String toString () {
         return emoji;
     }

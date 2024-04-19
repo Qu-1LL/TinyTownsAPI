@@ -149,16 +149,29 @@ public class Town implements Iterable<Tile>{
     public Iterator<Tile> iterator() {
         return new TownIterator(this);
     }
-    @Override 
+    // @Override 
+    // public String toString () {
+    //     String tstring = "";
+    //     Tile curtile = town.get(Tile.toCoords(0,0));
+    //     for (int i = 0;i < size;i++) {
+    //         for (int j = 0;j < size; j++) {
+    //             curtile = town.get(Tile.toCoords(j,i));
+    //             tstring += curtile.toString();
+    //         }
+    //         tstring += "\n";
+    //     }
+    //     return tstring;
+    // }
+    @Override
     public String toString () {
         String tstring = "";
-        Tile curtile = town.get(Tile.toCoords(0,0));
-        for (int i = 0;i < size;i++) {
-            for (int j = 0;j < size; j++) {
-                curtile = town.get(Tile.toCoords(j,i));
-                tstring += curtile.toString();
+        int i = 1;
+        for (Tile tile : this) {
+            tstring += tile.toString();
+            if (i % size == 0) {
+                tstring += "\n";
             }
-            tstring += "\n";
+            i++;
         }
         return tstring;
     }
@@ -174,8 +187,5 @@ public class Town implements Iterable<Tile>{
         town.build(1,1,new Cottage());
 
         System.out.println(town);
-
-
-
     }
 }

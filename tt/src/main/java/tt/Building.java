@@ -1,6 +1,6 @@
 package tt;
 
-public abstract class Building {
+public abstract class Building implements Holdable{
     private final String name;
     private final BuildingType type;
     private final Resource[][] schematic;
@@ -14,6 +14,10 @@ public abstract class Building {
     }
     public BuildingType getType () {
         return type;
+    }
+    @Override
+    public String toPrint () {
+        return type.toString();
     }
     public Resource[][] getSchematic() {
         return schematic;
