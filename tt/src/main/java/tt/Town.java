@@ -71,12 +71,24 @@ public class Town implements Iterable<Tile>{
             for (int j = 0;j < size; j++) {
                 curtile = new Tile(j,i);
                 town.put(curtile.getCoords(),curtile);
+
                 if (j != 0) {
                     connect(curtile,town.get(Tile.toCoords(j-1,i)));
+                    if (j == size - 1) {
+                        curtile.setEast(null);
+                    }
+                } else {
+                    curtile.setWest(null);
                 }
+            
                 if (i != 0) {
                     connect(curtile,town.get(Tile.toCoords(j,i-1)));
-                }
+                    if (i == size - 1) {
+                        curtile.setSouth(null);
+                    }
+                } else { 
+                    curtile.setNorth(null);
+                }   
             }
         }
     }

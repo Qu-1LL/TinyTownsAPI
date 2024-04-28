@@ -6,7 +6,7 @@ public class Cottage extends Building {
     private boolean isfed;
 
     public Cottage () {
-        super("Cottage",BuildingType.COTTAGE,new Resource[2][2],4);
+        super("Cottage",BuildingType.COTTAGE,new Resource[2][2]);
         this.isfed = false;
         this.getSchematic()[0][0] = Resource.EMPTY;
         this.getSchematic()[0][1] = Resource.WHEAT;

@@ -42,7 +42,7 @@ public class TownMaker extends ListenerAdapter {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.MONUMENT));
         }
         if (type.equalsIgnoreCase("yellow")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.YELLOW));
+            towns[index].build(x-1,y-1,new Theatre());
         }
         if (type.equalsIgnoreCase("orange")) {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.ORANGE));

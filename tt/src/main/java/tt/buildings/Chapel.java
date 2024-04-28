@@ -5,7 +5,7 @@ import tt.*;
 public class Chapel extends Building {
 
     public Chapel () {
-        super("Chapel",BuildingType.ORANGE,new Resource[2][3],6);
+        super("Chapel",BuildingType.ORANGE,new Resource[2][3]);
         this.getSchematic()[0][0] = Resource.GLASS;
         this.getSchematic()[0][1] = Resource.STONE;
         this.getSchematic()[0][2] = Resource.GLASS;
