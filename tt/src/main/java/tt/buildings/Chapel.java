@@ -18,7 +18,7 @@ public class Chapel extends Building {
         return "This building scores 1 point per fed cottage on your board.";
     }
     @Override
-    public int getScore(Town town, int x, int y) {
+    public int getScore (Town town, int x, int y) {
         int score = 0;
         for (Tile tile : town) {
             if (tile.getBuildingType() == BuildingType.COTTAGE && ((Cottage)tile.getBuilding()).isFed()) {

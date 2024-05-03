@@ -33,10 +33,13 @@ public class Town implements Iterable<Tile>{
     }
     public int score() {
         int score = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                score += town.get(Tile.toCoords(j,i)).getScore(this);
+        for (Tile tile : this) {
+            if (tile.getBuildingType() == BuildingType.RED) {
+                score += town.get(tile.getCoords()).getScore(this);
             }
+        }
+        for (Tile tile : this) {
+            score += town.get(tile.getCoords()).getScore(this);
         }
         return score;
     }

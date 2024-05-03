@@ -46,24 +46,3 @@ public class Theatre extends Building {
         return score;
     }
 }
-
-/*
-Try implementing a version of this code in the Tile.java class
-Idea is to make the directions iterable
-Iterating through a series of methods is difficult tho
-
-interface MoveAction {
-    void move();
-}
-
-private MoveAction[] moveActions = new MoveAction[] {
-    new MoveAction() { public void move() { goNorth(); } },
-    new MoveAction() { public void move() { goSouth(); } },
-    new MoveAction() { public void move() { goEast(); } },
-    new MoveAction() { public void move() { goWest(); } },
-};
-
-public void move(int index) {
-    moveActions[index].move();
-}
-*/

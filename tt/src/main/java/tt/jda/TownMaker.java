@@ -41,11 +41,11 @@ public class TownMaker extends ListenerAdapter {
         if (type.equalsIgnoreCase("monument")) {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.MONUMENT));
         }
-        if (type.equalsIgnoreCase("yellow")) {
+        if (type.equalsIgnoreCase("theatre")) {
             towns[index].build(x-1,y-1,new Theatre());
         }
-        if (type.equalsIgnoreCase("orange")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.ORANGE));
+        if (type.equalsIgnoreCase("chapel")) {
+            towns[index].build(x-1,y-1,new Chapel());
         }
         if (type.equalsIgnoreCase("farm")) {
             towns[index].build(x-1,y-1,new Farm());
@@ -53,8 +53,8 @@ public class TownMaker extends ListenerAdapter {
         if (type.equalsIgnoreCase("navy")) {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.NAVY));
         }
-        if (type.equalsIgnoreCase("green")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.GREEN));
+        if (type.equalsIgnoreCase("tavern")) {
+            towns[index].build(x-1,y-1,new Tavern());
         }
         if (type.equalsIgnoreCase("grey")) {
             towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.GREY));
