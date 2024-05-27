@@ -1,8 +1,5 @@
 package tt;
 
-import java.util.Set;
-import java.util.HashSet;
-
 public class Tile {
     private final int x;
     private final int y;
@@ -59,13 +56,25 @@ public class Tile {
     public void setWest(Tile west) {
         this.west = west;
     }
-    public Set<Tile> getAdjacent() {
-        Set<Tile> adjacent = new HashSet<>();
-        adjacent.add(north);
-        adjacent.add(south);
-        adjacent.add(east);
-        adjacent.add(west);
+    public Tile[] getAdjacentArray() {
+        Tile[] adjacent = new Tile[4];
+        adjacent[0] = north;
+        adjacent[1] = east;
+        adjacent[2] = south;
+        adjacent[3] = west;
         return adjacent;
+    }
+    public Tile[] getSurroundingArray() {
+        Tile[] surrounding = new Tile[8];
+        surrounding[0] = north;
+        surrounding[1] = north.East();
+        surrounding[2] = east;
+        surrounding[3] = east.South();
+        surrounding[4] = south;
+        surrounding[5] = south.West();
+        surrounding[6] = west;
+        surrounding[7] = west.North();
+        return surrounding;
     }
 
     public Resource getResource() {
@@ -88,6 +97,10 @@ public class Tile {
             return ret.getType();
         }
         return null;
+    }
+
+    public Tileable getTileable() {
+        return object;
     }
 
     public void build(Building building) {
@@ -128,5 +141,20 @@ public class Tile {
     @Override
     public String toString () {
         return object.toPrint();
+    }
+
+    @Override
+    public boolean equals (Object obj) {
+        Tile tile;
+        if (obj instanceof Tile) {
+            tile = (Tile)obj;
+        } else {
+            return false;
+        }
+        if (x == tile.getX() && y == tile.getY() && object.equals(tile.getTileable())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

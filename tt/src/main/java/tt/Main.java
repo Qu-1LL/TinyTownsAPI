@@ -1,10 +1,20 @@
 package tt;
 
+import tt.buildings.*;
+
 public class Main {
     public static void main(String[] args) {
-        Tile t1 = new Tile(0,0,Resource.WOOD);
-        System.out.println(Resource.WOOD.getClass().getName());
-        System.out.println(t1.getResource().getClass().getName());
-        System.out.println(t1.removeResource());
+        Well well = new Well();
+        System.out.println(well);
+        Theatre theatre = new Theatre();
+        System.out.println(theatre);
+        Tavern tavern = new Tavern();
+        System.out.println(tavern);
+        Farm farm = new Farm();
+        System.out.println(farm);
+        Cottage cottage = new Cottage();
+        System.out.println(cottage);
+        Chapel chapel = new Chapel();
+        System.out.println(chapel);
     }
 }

@@ -17,7 +17,7 @@ public class Theatre extends Building {
     @Override
     public String getRules () {
         return "This building scores 1 point for each unique building\n" +
-            "in the same row and columns as this building.";
+            "in the same row and column as this building.\n";
     }
     @Override
     public int getScore (Town town, int x, int y) {
@@ -26,19 +26,10 @@ public class Theatre extends Building {
         Tile curtile = town.getTile(x,y);
         for (int i = 0; i < 4; i++) {
             while (curtile != null) {
-                if (curtile != town.getTile(x,y) && curtile.getBuildingType() != null) {
+                if (!curtile.equals(town.getTile(x,y)) && curtile.getBuildingType() != null) {
                     set.add(curtile.getBuildingType());
                 }
-                if (i == 0) {
-                    curtile = curtile.North();
-                } else if (i == 1) {
-                    curtile = curtile.East();
-                } else if (i == 2) {
-                    curtile = curtile.South();
-                } else if (i == 3) {
-                    curtile = curtile.West();
-                }
-                // does not work
+                curtile = curtile.getAdjacentArray()[i];
             }
             curtile = town.getTile(x,y);
         }

@@ -15,7 +15,7 @@ public class Chapel extends Building {
     }
     @Override
     public String getRules () {
-        return "This building scores 1 point per fed cottage on your board.";
+        return "This building scores 1 point per fed cottage on your board.\n";
     }
     @Override
     public int getScore (Town town, int x, int y) {

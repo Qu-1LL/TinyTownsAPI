@@ -16,17 +16,12 @@ public class Cottage extends Building {
     @Override
     public String getRules() {
         return "This building scores 3 points if fed.\n" +
-        "you can feed a cottage with a red building in your town.\n";
+        "You can feed a cottage with a red building in your town.\n";
     }
     public boolean isFed () {
         return isfed;
     }
     public void feed() {
         isfed = true;
-    }
-
-    public static void main (String[] Args) {
-        Cottage cottage = new Cottage();
-        System.out.println(cottage);
     }
 }

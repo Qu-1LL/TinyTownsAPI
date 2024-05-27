@@ -19,6 +19,7 @@ public class TownMaker extends ListenerAdapter {
     private final String command3 = "resource";
     private final String command4 = "towns";
     private final String command5 = "score";
+    private final String command6 = "rules";
     private Town[] towns;
 
     public TownMaker(JDA jda, String textChannelName) {
@@ -147,6 +148,25 @@ public class TownMaker extends ListenerAdapter {
                 for (int i = 0;i < players;i++) {
                     homeChannel.sendMessage("Town: " + (i + 1) + " Score: " + towns[i].score()).queue();
                     homeChannel.sendMessage(towns[i].toString()).queue();
+                }
+            } else {
+                eChannel.sendMessage("Error").queue();
+            }
+        }
+        if (parsedmessage[0].equalsIgnoreCase(caller) && parsedmessage[1].equalsIgnoreCase(command6)) {
+            
+            if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
+                MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
+
+                Building[] b = new Building[6];
+                b[0] = new Well();
+                b[1] = new Theatre();
+                b[2] = new Tavern();
+                b[3] = new Farm();
+                b[4] = new Cottage();
+                b[5] = new Chapel();
+                for (Building build : b) {
+                    homeChannel.sendMessage(build.toString()).queue();
                 }
             } else {
                 eChannel.sendMessage("Error").queue();

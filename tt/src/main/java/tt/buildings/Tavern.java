@@ -18,7 +18,7 @@ public class Tavern extends Building {
     public String getRules () {
         return "This building scores incrementally per each tavern in your town," +
         "\n # of taverns  : 1  2  3  4  5" +
-        "\n # of points   : 2  5  9  14 20";
+        "\n # of points   : 2  5  9  14 20\n";
     }
     public void scored () {
         this.isscored = true;
