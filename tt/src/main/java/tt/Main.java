@@ -16,5 +16,7 @@ public class Main {
         System.out.println(cottage);
         Chapel chapel = new Chapel();
         System.out.println(chapel);
+        Factory factory = new Factory(Resource.EMPTY);
+        System.out.println(factory);
     }
 }

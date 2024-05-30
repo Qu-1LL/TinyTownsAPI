@@ -51,14 +51,14 @@ public class TownMaker extends ListenerAdapter {
         if (type.equalsIgnoreCase("farm")) {
             towns[index].build(x-1,y-1,new Farm());
         }
-        if (type.equalsIgnoreCase("navy")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.NAVY));
+        if (type.equalsIgnoreCase("factory")) {
+            towns[index].build(x-1,y-1,new Factory(Resource.EMPTY));
         }
         if (type.equalsIgnoreCase("tavern")) {
             towns[index].build(x-1,y-1,new Tavern());
         }
-        if (type.equalsIgnoreCase("grey")) {
-            towns[index].build(x-1,y-1,new UniqueBuilding(BuildingType.GREY));
+        if (type.equalsIgnoreCase("well")) {
+            towns[index].build(x-1,y-1,new Well());
         }
         
     }
@@ -158,13 +158,14 @@ public class TownMaker extends ListenerAdapter {
             if (event.isFromGuild() && event.getGuild().getTextChannelsByName(textChannelName, true).size() > 0) {
                 MessageChannel homeChannel = event.getGuild().getTextChannelsByName(textChannelName, true).get(0);
 
-                Building[] b = new Building[6];
+                Building[] b = new Building[7];
                 b[0] = new Well();
                 b[1] = new Theatre();
                 b[2] = new Tavern();
                 b[3] = new Farm();
                 b[4] = new Cottage();
                 b[5] = new Chapel();
+                b[6] = new Factory(Resource.EMPTY);
                 for (Building build : b) {
                     homeChannel.sendMessage(build.toString()).queue();
                 }
