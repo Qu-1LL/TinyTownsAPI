@@ -159,25 +159,4 @@ public class Player {
         }
     }
 
-    public static void main(String[] args) {
-        Resource[][] getSchematic = new Resource[2][3];
-        getSchematic[0][0] = Resource.EMPTY;
-        getSchematic[0][1] = Resource.STONE;
-        getSchematic[0][2] = Resource.EMPTY;
-        getSchematic[1][0] = Resource.WOOD;
-        getSchematic[1][1] = Resource.GLASS;
-        getSchematic[1][2] = Resource.WOOD;
-        for (Resource[] array : getSchematic) {
-            for (Resource res : array) {
-                System.out.println(res);
-            }
-        }
-        getSchematic = rotateCW(getSchematic);
-        for (Resource[] array : getSchematic) {
-            for (Resource res : array) {
-                System.out.println(res);
-            }
-        }
-    }
-
 }
