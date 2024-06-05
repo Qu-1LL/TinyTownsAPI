@@ -1,5 +1,6 @@
 package tt;
 
+import tt.discord.*;
 import java.util.HashSet;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ public class Player {
 
     public String username;
     private Town town;
-    // private Game game;
+    private Game game;
     private HashSet<Tile> emptyTiles;
     private HashSet<Tile> buildableCottage;
     private HashSet<Tile> buildableYellow;
@@ -19,8 +20,11 @@ public class Player {
     private HashSet<Tile> buildableMonument;
     private ArrayList<HashSet<Tile>> buildableSets;
 
-    public Player (String username) {
+    private Building monument;
+
+    public Player (String username, Game game) {
         this.username = username;
+        this.game = game;
 
         this.town = new Town(4);
         this.emptyTiles = new HashSet<Tile>();
@@ -50,6 +54,130 @@ public class Player {
 
     public Town getTown () {
         return town;
+    }
+
+    public void updateBoardState () {
+        emptyTiles = findEmpty();
+        buildableCottage = findBuildable(game.cottage.getSchematic());
+        buildableYellow = findBuildable(game.yellow.getSchematic());
+        buildableOrange = findBuildable(game.orange.getSchematic());
+        buildableRed = findBuildable(game.red.getSchematic());
+        buildableGreen = findBuildable(game.green.getSchematic());
+        buildableNavy = findBuildable(game.navy.getSchematic());
+        buildableGrey = findBuildable(game.grey.getSchematic());
+        buildableMonument = findBuildable(monument.getSchematic());
+    }
+
+    private HashSet<Tile> findEmpty () {
+        HashSet<Tile> empty = new HashSet<>();
+        for (Tile tile : town) {
+            if (tile.getResource() == Resource.EMPTY) {
+                empty.add(tile);
+            }
+        }
+        return empty;
+    }
+
+    private HashSet<Tile> findBuildable (Resource[][] schem) {
+        Resource[][] schematic = schem;
+        HashSet<Tile> buildable = new HashSet<Tile>();
+        for (int i = 1; i < 17;i++) {
+            schematic = rotateCW(schematic);
+            if (i % 4 == 0) {
+                mirrorH(schematic);
+            }
+            if (i % 8 == 0) {
+                mirrorV(schematic);
+            }
+            compareSchematic(schematic,buildable);
+        }
+        return buildable;
+    }
+
+    static Resource[][] rotateCW(Resource[][] schematic) {
+        final int M = schematic.length;
+        final int N = schematic[0].length;
+        Resource[][] ret = new Resource[N][M];
+        for (int r = 0; r < M; r++) {
+            for (int c = 0; c < N; c++) {
+                ret[c][M-1-r] = schematic[r][c];
+            }
+        }
+        return ret;
+    }
+
+    static void mirrorH(Resource[][] schematic) {
+        for(int j = 0; j < (schematic.length/2); j++) {
+            Resource[] temp = schematic[j];
+            schematic[j] = schematic[schematic.length - j - 1];
+            schematic[schematic.length - j - 1] = temp;
+        }
+    }
+
+    static void mirrorV(Resource[][] schematic) {
+        for (int j = 0; j < schematic.length; ++j) {  
+            Resource[] col = schematic[j];
+            for(int k = 0; k < (col.length/2); k++) {
+                Resource temp = col[k];
+                col[k] = schematic[j][col.length - k - 1];
+                col[col.length - k - 1] = temp;
+            }
+        }
+    }
+
+    private HashSet<Tile> compareSchematic (Resource[][] schematic, HashSet<Tile> buildable) {
+        boolean fail = false;
+        for (int i = 0;i <= (4-schematic[0].length);i++) {
+            for (int j = 0;j <= (4-schematic.length);j++) {
+                fail = false;
+                for (int x = 0; x < schematic[0].length;x++) {
+                    for (int y = 0; y < schematic.length;y++) {
+                        if (town.getTile(x+i,y+j).getResource() != schematic[y][x] && schematic[y][x] != Resource.EMPTY) {
+                            fail = true;
+                            break;
+                        }
+                    }
+                    if (fail) {break;}
+                }
+                if (fail) {continue;}
+                fillBuildable(i,j,schematic,buildable);
+            }
+        }
+
+        return buildable;
+    }
+
+    private void fillBuildable (int i, int j, Resource[][] schematic, HashSet<Tile> buildable) {
+        for (int x = 0; x < schematic[0].length;x++) {
+            for (int y = 0; y < schematic.length;y++) {
+                if (schematic[y][x] == Resource.EMPTY) {
+                    continue;
+                } else {
+                    buildable.add(town.getTile(x+i,y+j));
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Resource[][] getSchematic = new Resource[2][3];
+        getSchematic[0][0] = Resource.EMPTY;
+        getSchematic[0][1] = Resource.STONE;
+        getSchematic[0][2] = Resource.EMPTY;
+        getSchematic[1][0] = Resource.WOOD;
+        getSchematic[1][1] = Resource.GLASS;
+        getSchematic[1][2] = Resource.WOOD;
+        for (Resource[] array : getSchematic) {
+            for (Resource res : array) {
+                System.out.println(res);
+            }
+        }
+        getSchematic = rotateCW(getSchematic);
+        for (Resource[] array : getSchematic) {
+            for (Resource res : array) {
+                System.out.println(res);
+            }
+        }
     }
 
 }

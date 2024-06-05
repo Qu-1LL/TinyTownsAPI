@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Player",
+            "request": "launch",
+            "mainClass": "tt.Player",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
             "name": "Cottage",
             "request": "launch",
             "mainClass": "tt.buildings.Cottage",

@@ -11,11 +11,23 @@ public class Game extends ListenerAdapter {
 
     private final JDA jda;
     private final String textChannelName;
+    private int playerCount;
+    private Player[] players;
+
+    public Building cottage;
+    public Building yellow;
+    public Building orange;
+    public Building red;
+    public Building green;
+    public Building navy;
+    public Building grey;
+
 
     public Game (JDA jda, String textChannelName) {
         this.jda = jda;
         this.textChannelName = textChannelName;
         jda.addEventListener(this);
     }
+
 
 }

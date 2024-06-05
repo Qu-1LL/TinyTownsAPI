@@ -3,7 +3,6 @@ package tt;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
-import tt.buildings.*;
 
 public class Town implements Iterable<Tile>{
     private Map<String,Tile> town;
@@ -43,6 +42,7 @@ public class Town implements Iterable<Tile>{
         }
         return score;
     }
+    // Used in fillTown
     private static void connect(Tile a, Tile b) {
         if (a.getX() == b.getX()) {
             if (a.getY()-1 == b.getY()) {
@@ -68,6 +68,7 @@ public class Town implements Iterable<Tile>{
     public boolean connected(Tile a, Tile b) {
         return a.North() == b || a.East() == b || a.South() == b || a.West() == b;
     }
+    // Used in constructor
     private void fillTown () {
         Tile curtile;
         for (int i = 0;i < size;i++) {
@@ -179,18 +180,5 @@ public class Town implements Iterable<Tile>{
             i++;
         }
         return tstring;
-    }
-    public static void main (String[] Args) {
-        Town town = new Town(4);
-        town.place(1,1,Resource.STONE);
-        town.place(1,2,Resource.WHEAT);
-        town.place(2,1,Resource.BRICK);
-        town.place(2,2,Resource.GLASS);
-
-        System.out.println(town);
-
-        town.build(1,1,new Cottage());
-
-        System.out.println(town);
     }
 }
