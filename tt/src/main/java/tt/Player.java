@@ -7,6 +7,7 @@ public class Player {
 
     public String username;
     private Town town;
+    // private Game game;
     private HashSet<Tile> emptyTiles;
     private HashSet<Tile> buildableCottage;
     private HashSet<Tile> buildableYellow;

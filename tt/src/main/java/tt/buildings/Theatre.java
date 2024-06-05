@@ -16,7 +16,7 @@ public class Theatre extends Building {
     }
     @Override
     public String getRules () {
-        return "This building scores 1 point for each unique building\n" +
+        return "This building scores 1 point for each unique building " +
             "in the same row and column as this building.\n";
     }
     @Override

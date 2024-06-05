@@ -15,7 +15,7 @@ public class Cottage extends Building {
     }
     @Override
     public String getRules() {
-        return "This building scores 3 points if fed.\n" +
+        return "This building scores 3 points if fed. " +
         "You can feed a cottage with a red building in your town.\n";
     }
     public boolean isFed () {

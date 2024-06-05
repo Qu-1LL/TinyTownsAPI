@@ -21,8 +21,8 @@ public class Factory extends Building {
     }
     @Override
     public String getRules () {
-        return "When this building is constructed, select a resource.\n"+
-        "If that resource is called by another player, you may place\n"+ 
+        return "When this building is constructed, select a resource. "+
+        "If that resource is called by another player, you may place "+ 
         "a different resource in your town if you wish.\n";
     }
     @Override

@@ -13,7 +13,7 @@ public class Farm extends Building {
     }
     @Override
     public String getRules() {
-        return "This building feeds up to 4 different cottages.\n" +
+        return "This building feeds up to 4 different cottages. " +
         "This building does not score any points on it's own.\n";
     }
     @Override

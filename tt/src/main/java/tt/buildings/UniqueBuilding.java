@@ -21,7 +21,7 @@ public class UniqueBuilding extends Building {
     
     @Override
     public String getRules () {
-        return "This building scores 1 point.\n" +
+        return "This building scores 1 point. " +
         "This building is only to be used for testing purposes.\n";
     }
     @Override
