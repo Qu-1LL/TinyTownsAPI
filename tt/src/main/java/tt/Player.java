@@ -159,4 +159,67 @@ public class Player {
         }
     }
 
+    // Everything below is to be used for testing only
+
+    protected Player () {
+        this.username = "tester";
+        this.game = null;
+
+        this.town = new Town(4);
+        this.emptyTiles = new HashSet<Tile>();
+        for (Tile tile : town) {
+            emptyTiles.add(tile);
+        }
+
+        this.buildableCottage = new HashSet<Tile>();
+        this.buildableYellow = new HashSet<Tile>();
+        this.buildableOrange = new HashSet<Tile>();
+        this.buildableRed = new HashSet<Tile>();
+        this.buildableGreen = new HashSet<Tile>();
+        this.buildableNavy = new HashSet<Tile>();
+        this.buildableGrey = new HashSet<Tile>();
+        this.buildableMonument = new HashSet<Tile>();
+
+        this.buildableSets = new ArrayList<HashSet<Tile>>();
+        buildableSets.add(buildableCottage);
+        buildableSets.add(buildableYellow);
+        buildableSets.add(buildableOrange);
+        buildableSets.add(buildableRed);
+        buildableSets.add(buildableGreen);
+        buildableSets.add(buildableNavy);
+        buildableSets.add(buildableGrey);
+        buildableSets.add(buildableMonument);
+    }
+
+    protected HashSet<Tile> getBuildableCottage () {
+        return buildableCottage;
+    }
+    protected HashSet<Tile> getBuildableYellow () {
+        return buildableYellow;
+    }
+    protected HashSet<Tile> getBuildableOrange () {
+        return buildableOrange;
+    }
+    protected HashSet<Tile> getBuildableRed () {
+        return buildableRed;
+    }
+    protected HashSet<Tile> getBuildableGreen () {
+        return buildableGreen;
+    }
+    protected HashSet<Tile> getBuildableNavy () {
+        return buildableNavy;
+    }
+    protected HashSet<Tile> getBuildableGrey () {
+        return buildableGrey;
+    }
+    protected HashSet<Tile> getBuildableMonument () {
+        return buildableMonument;
+    }
+    protected HashSet<Tile> getEmptyTiles () {
+        return emptyTiles;
+    }
+    protected void setTown () {
+        this.town = new Town(4);
+    }
+
 }

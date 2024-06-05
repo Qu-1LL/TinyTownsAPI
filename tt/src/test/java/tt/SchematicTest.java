@@ -8,9 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import tt.buildings.UniqueBuilding;
 
+import java.util.HashSet;
+
 import org.junit.Test;
 
-public class SchematicTest {
+public class SchematicTest extends Player {
+
+    public SchematicTest () {
+        super();
+    }
 
     @Test
     public void compareSchematicTest1 () {
@@ -44,7 +50,6 @@ public class SchematicTest {
                     if (fail) {break;}
                 }
                 if (fail) {continue;}
-                System.out.println("Success at i = "+i+" and j = "+j);
                 fx = i;
                 fy = j;
                 break;
@@ -53,6 +58,20 @@ public class SchematicTest {
         }
         assertEquals(fx,1);
         assertEquals(fy,1);
+    }
+    @Test
+    public void buildableCottageTest () {
+        this.setTown();
+        Town town = this.getTown();
+        town.place(2,1,Resource.WHEAT);
+        town.place(1,1,Resource.GLASS);
+        town.place(1,2,Resource.BRICK);
+        updateBoardState();
+        HashSet<Tile> buildableCottage = this.getBuildableCottage();
+        assertEquals(buildableCottage.size(),3);
+        assertTrue(buildableCottage.contains(town.getTile(2,1)));
+        assertTrue(buildableCottage.contains(town.getTile(1,1)));
+        assertTrue(buildableCottage.contains(town.getTile(1,2)));
     }
 
 }
