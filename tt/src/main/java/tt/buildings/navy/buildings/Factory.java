@@ -1,13 +1,14 @@
-package tt.buildings;
+package tt.navy.buildings;
 
 import tt.*;
+import tt.navy.Navy;
 
-public class Factory extends Building {
+public class Factory extends Navy {
 
     private Resource resource;
 
-    public Factory (Resource resource) {
-        super("Factory",BuildingType.NAVY,new Resource[2][4]);
+    public Factory () {
+        super("Factory",new Resource[2][4],0);
         this.getSchematic()[0][0] = Resource.WOOD;
         this.getSchematic()[0][1] = Resource.EMPTY;
         this.getSchematic()[0][2] = Resource.EMPTY;
@@ -17,7 +18,7 @@ public class Factory extends Building {
         this.getSchematic()[1][2] = Resource.STONE;
         this.getSchematic()[1][3] = Resource.BRICK;
         
-        this.resource = resource;
+        this.resource = grabResource();
     }
     @Override
     public String getRules () {

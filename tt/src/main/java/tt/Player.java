@@ -1,8 +1,14 @@
 package tt;
 
-import tt.discord.*;
 import java.util.HashSet;
 import java.util.ArrayList;
+import tt.buildings.*;
+import tt.buildings.green.buildings.Tavern;
+import tt.buildings.grey.buildings.Well;
+import tt.buildings.navy.buildings.Factory;
+import tt.buildings.orange.buildings.Chapel;
+import tt.buildings.red.buildings.Farm;
+import tt.buildings.yellow.buildings.Theatre;
 
 public class Player {
 
@@ -159,11 +165,46 @@ public class Player {
         }
     }
 
+    public Building getMonument() {
+        return monument;
+    }
+    public void setMonument(Building monument) {
+        this.monument = monument;
+    }
+
+    public HashSet<Tile> getBuildableCottage () {
+        return buildableCottage;
+    }
+    public HashSet<Tile> getBuildableYellow () {
+        return buildableYellow;
+    }
+    public HashSet<Tile> getBuildableOrange () {
+        return buildableOrange;
+    }
+    public HashSet<Tile> getBuildableRed () {
+        return buildableRed;
+    }
+    public HashSet<Tile> getBuildableGreen () {
+        return buildableGreen;
+    }
+    public HashSet<Tile> getBuildableNavy () {
+        return buildableNavy;
+    }
+    public HashSet<Tile> getBuildableGrey () {
+        return buildableGrey;
+    }
+    public HashSet<Tile> getBuildableMonument () {
+        return buildableMonument;
+    }
+    public HashSet<Tile> getEmptyTiles () {
+        return emptyTiles;
+    }
+
     // Everything below is to be used for testing only
 
     protected Player () {
         this.username = "tester";
-        this.game = null;
+        this.game = new Game((Building)(new Cottage()),(Building)(new Theatre()),(Building)(new Chapel()),(Building)(new Farm()),(Building)(new Tavern()),(Building)(new Factory()),(Building)(new Well()));
 
         this.town = new Town(4);
         this.emptyTiles = new HashSet<Tile>();
@@ -191,33 +232,6 @@ public class Player {
         buildableSets.add(buildableMonument);
     }
 
-    protected HashSet<Tile> getBuildableCottage () {
-        return buildableCottage;
-    }
-    protected HashSet<Tile> getBuildableYellow () {
-        return buildableYellow;
-    }
-    protected HashSet<Tile> getBuildableOrange () {
-        return buildableOrange;
-    }
-    protected HashSet<Tile> getBuildableRed () {
-        return buildableRed;
-    }
-    protected HashSet<Tile> getBuildableGreen () {
-        return buildableGreen;
-    }
-    protected HashSet<Tile> getBuildableNavy () {
-        return buildableNavy;
-    }
-    protected HashSet<Tile> getBuildableGrey () {
-        return buildableGrey;
-    }
-    protected HashSet<Tile> getBuildableMonument () {
-        return buildableMonument;
-    }
-    protected HashSet<Tile> getEmptyTiles () {
-        return emptyTiles;
-    }
     protected void setTown () {
         this.town = new Town(4);
     }

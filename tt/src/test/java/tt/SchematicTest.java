@@ -1,6 +1,5 @@
 package tt;
 
-import tt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,6 +62,7 @@ public class SchematicTest extends Player {
     public void buildableCottageTest () {
         this.setTown();
         Town town = this.getTown();
+        this.setMonument((Building)(new UniqueBuilding(BuildingType.MONUMENT)));
         town.place(2,1,Resource.WHEAT);
         town.place(1,1,Resource.GLASS);
         town.place(1,2,Resource.BRICK);

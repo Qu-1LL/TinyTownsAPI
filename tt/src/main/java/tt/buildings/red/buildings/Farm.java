@@ -1,11 +1,13 @@
-package tt.buildings;
+package tt.buildings.red.buildings;
 
 import tt.*;
+import tt.buildings.Cottage;
+import tt.buildings.red.Red;
 
-public class Farm extends Building {
+public class Farm extends Red {
 
     public Farm () {
-        super("Farm",BuildingType.RED,new Resource[2][2]);
+        super("Farm",new Resource[2][2],0);
         this.getSchematic()[0][0] = Resource.WHEAT;
         this.getSchematic()[0][1] = Resource.WHEAT;
         this.getSchematic()[1][0] = Resource.WOOD;
@@ -18,17 +20,17 @@ public class Farm extends Building {
     }
     @Override
     public int getScore(Town town, int x, int y) {
-        int score = 0;
+        int fedCount = 0;
         for (Tile tile : town) {
             if (tile.getBuildingType() == BuildingType.COTTAGE && !((Cottage)tile.getBuilding()).isFed()) {
                 ((Cottage)tile.getBuilding()).feed();
-                score += 3;
+                fedCount++;
             }
-            if (score == 12) {
+            if (fedCount >= 4) {
                 break;
                 
             }
         }
-        return score;
+        return 0;
     }
 }

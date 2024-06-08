@@ -1,11 +1,12 @@
-package tt.buildings;
+package tt.buildings.grey.buildings;
 
 import tt.*;
+import tt.buildings.grey.Grey;
 
-public class Well extends Building {
+public class Well extends Grey {
 
     public Well () {
-        super("Well",BuildingType.GREY,new Resource[1][2]);
+        super("Well",new Resource[1][2],0);
         this.getSchematic()[0][0] = Resource.STONE;
         this.getSchematic()[0][1] = Resource.WOOD;
     }

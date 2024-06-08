@@ -1,11 +1,13 @@
-package tt.buildings;
+package tt.buildings.orange.buildings;
 
 import tt.*;
+import tt.buildings.Cottage;
+import tt.buildings.orange.Orange;
 
-public class Chapel extends Building {
+public class Chapel extends Orange {
 
     public Chapel () {
-        super("Chapel",BuildingType.ORANGE,new Resource[2][3]);
+        super("Chapel",new Resource[2][3],0);
         this.getSchematic()[0][0] = Resource.GLASS;
         this.getSchematic()[0][1] = Resource.STONE;
         this.getSchematic()[0][2] = Resource.GLASS;

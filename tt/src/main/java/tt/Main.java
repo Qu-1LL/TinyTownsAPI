@@ -1,6 +1,12 @@
 package tt;
 
 import tt.buildings.*;
+import tt.green.buildings.Tavern;
+import tt.grey.buildings.Well;
+import tt.navy.buildings.Factory;
+import tt.orange.buildings.Chapel;
+import tt.red.buildings.Farm;
+import tt.yellow.buildings.Theatre;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +22,7 @@ public class Main {
         System.out.println(cottage);
         Chapel chapel = new Chapel();
         System.out.println(chapel);
-        Factory factory = new Factory(Resource.EMPTY);
+        Factory factory = new Factory();
         System.out.println(factory);
     }
 }

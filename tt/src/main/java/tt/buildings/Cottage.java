@@ -18,10 +18,23 @@ public class Cottage extends Building {
         return "This building scores 3 points if fed. " +
         "You can feed a cottage with a red building in your town.\n";
     }
+    @Override
+    public int getScore(Town town, int x, int y) {
+        if (isfed) {
+            return 3;
+        }
+        else {
+            return 0;
+        }
+    }
     public boolean isFed () {
         return isfed;
     }
     public void feed() {
         isfed = true;
+    }
+    @Override
+    public Cottage build () {
+        return new Cottage();
     }
 }

@@ -28,5 +28,9 @@ public class UniqueBuilding extends Building {
     public int getScore(Town town, int x, int y) {
         return 1;
     }
+    @Override
+    public UniqueBuilding build () {
+        return new UniqueBuilding();
+    }
 
 }

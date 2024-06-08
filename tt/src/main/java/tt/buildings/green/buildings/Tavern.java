@@ -1,14 +1,14 @@
-package tt.buildings;
+package tt.buildings.green.buildings;
 
 import tt.*;
+import tt.buildings.green.Green;
 
-public class Tavern extends Building {
-    private boolean isscored;
+public class Tavern extends Green {
 
     private static int[] scores = {0,2,5,9,14,20};
 
     public Tavern () {
-        super("Tavern",BuildingType.GREEN,new Resource[1][3]);
+        super("Tavern",new Resource[1][3],0);
         this.isscored = false;
         this.getSchematic()[0][0] = Resource.BRICK;
         this.getSchematic()[0][1] = Resource.BRICK;
@@ -19,9 +19,6 @@ public class Tavern extends Building {
         return "This building scores incrementally per each tavern in your town," +
         "\n # of taverns  : 1  2  3  4  5" +
         "\n # of points   : 2  5  9  14 20\n";
-    }
-    public void scored () {
-        this.isscored = true;
     }
     @Override
     public int getScore (Town town, int x, int y) {

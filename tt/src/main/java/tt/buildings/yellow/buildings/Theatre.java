@@ -1,12 +1,14 @@
-package tt.buildings;
+package tt.buildings.yellow.buildings;
 
 import tt.*;
+import tt.buildings.yellow.Yellow;
+
 import java.util.HashSet;
 
-public class Theatre extends Building {
+public class Theatre extends Yellow {
 
     public Theatre () {
-        super("Theatre",BuildingType.YELLOW,new Resource[2][3]);
+        super("Theatre",new Resource[2][3],0);
         this.getSchematic()[0][0] = Resource.EMPTY;
         this.getSchematic()[0][1] = Resource.STONE;
         this.getSchematic()[0][2] = Resource.EMPTY;
