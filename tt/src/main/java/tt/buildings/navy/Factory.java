@@ -1,7 +1,7 @@
-package tt.buildings.navy.buildings;
+package tt.buildings.navy;
 
 import tt.*;
-import tt.buildings.navy.Navy;
+import tt.buildings.Navy;
 
 public class Factory extends Navy {
 

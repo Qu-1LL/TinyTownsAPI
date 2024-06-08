@@ -1,8 +1,8 @@
-package tt.buildings.orange.buildings;
+package tt.buildings.orange;
 
 import tt.*;
 import tt.buildings.Cottage;
-import tt.buildings.orange.Orange;
+import tt.buildings.Orange;
 
 public class Chapel extends Orange {
 

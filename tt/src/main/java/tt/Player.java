@@ -3,12 +3,12 @@ package tt;
 import java.util.HashSet;
 import java.util.ArrayList;
 import tt.buildings.*;
-import tt.buildings.green.buildings.Tavern;
-import tt.buildings.grey.buildings.Well;
-import tt.buildings.navy.buildings.Factory;
-import tt.buildings.orange.buildings.Chapel;
-import tt.buildings.red.buildings.Farm;
-import tt.buildings.yellow.buildings.Theatre;
+import tt.buildings.green.Tavern;
+import tt.buildings.grey.Well;
+import tt.buildings.navy.Factory;
+import tt.buildings.orange.Chapel;
+import tt.buildings.red.Farm;
+import tt.buildings.yellow.Theatre;
 
 public class Player {
 
@@ -204,7 +204,7 @@ public class Player {
 
     protected Player () {
         this.username = "tester";
-        this.game = new Game((Building)(new Cottage()),(Building)(new Theatre()),(Building)(new Chapel()),(Building)(new Farm()),(Building)(new Tavern()),(Building)(new Factory()),(Building)(new Well()));
+        this.game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
 
         this.town = new Town(4);
         this.emptyTiles = new HashSet<Tile>();

@@ -6,12 +6,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import tt.*;
 import tt.buildings.*;
-import tt.buildings.green.buildings.Tavern;
-import tt.buildings.grey.buildings.Well;
-import tt.buildings.navy.buildings.Factory;
-import tt.buildings.orange.buildings.Chapel;
-import tt.buildings.red.buildings.Farm;
-import tt.buildings.yellow.buildings.Theatre;
+import tt.buildings.green.Tavern;
+import tt.buildings.grey.Well;
+import tt.buildings.navy.Factory;
+import tt.buildings.orange.Chapel;
+import tt.buildings.red.Farm;
+import tt.buildings.yellow.Theatre;
 
 
 public class TownMaker extends ListenerAdapter {

@@ -1,7 +1,7 @@
-package tt.buildings.yellow;
+package tt.buildings;
 
 import tt.*;
-import tt.buildings.yellow.buildings.*;
+import tt.buildings.yellow.Theatre;
 
 public class Yellow extends Building {
 

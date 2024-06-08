@@ -1,7 +1,7 @@
-package tt.buildings.grey;
+package tt.buildings;
 
 import tt.*;
-import tt.buildings.grey.buildings.*;
+import tt.buildings.grey.Well;
 
 public class Grey extends Building {
 

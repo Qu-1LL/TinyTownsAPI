@@ -7,16 +7,16 @@ public class Game {
     private int playerCount;
     private Player[] players;
 
-    public Building cottage;
-    public Building yellow;
-    public Building orange;
-    public Building red;
-    public Building green;
-    public Building navy;
-    public Building grey;
+    public Cottage cottage;
+    public Yellow yellow;
+    public Orange orange;
+    public Red red;
+    public Green green;
+    public Navy navy;
+    public Grey grey;
 
 
-    public Game (Building cottage, Building yellow, Building orange, Building red, Building green, Building navy, Building grey) {
+    public Game (Cottage cottage, Yellow yellow, Orange orange, Red red, Green green, Navy navy, Grey grey) {
         this.cottage = cottage;
         this.yellow = yellow;
         this.orange = orange;

@@ -1,7 +1,7 @@
-package tt.buildings.yellow.buildings;
+package tt.buildings.yellow;
 
 import tt.*;
-import tt.buildings.yellow.Yellow;
+import tt.buildings.Yellow;
 
 import java.util.HashSet;
 

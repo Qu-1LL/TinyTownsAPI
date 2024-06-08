@@ -1,7 +1,7 @@
-package tt.buildings.red;
+package tt.buildings;
 
 import tt.*;
-import tt.buildings.red.buildings.*;
+import tt.buildings.red.Farm;
 
 public class Red extends Building {
 
