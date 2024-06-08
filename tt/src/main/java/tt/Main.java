@@ -1,12 +1,12 @@
 package tt;
 
 import tt.buildings.*;
-import tt.green.buildings.Tavern;
-import tt.grey.buildings.Well;
-import tt.navy.buildings.Factory;
-import tt.orange.buildings.Chapel;
-import tt.red.buildings.Farm;
-import tt.yellow.buildings.Theatre;
+import tt.buildings.green.buildings.Tavern;
+import tt.buildings.grey.buildings.Well;
+import tt.buildings.navy.buildings.Factory;
+import tt.buildings.orange.buildings.Chapel;
+import tt.buildings.red.buildings.Farm;
+import tt.buildings.yellow.buildings.Theatre;
 
 public class Main {
     public static void main(String[] args) {

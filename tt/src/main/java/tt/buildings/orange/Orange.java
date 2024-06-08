@@ -1,7 +1,7 @@
-package tt.orange;
+package tt.buildings.orange;
 
 import tt.*;
-import tt.orange.buildings.*;
+import tt.buildings.orange.buildings.*;
 
 public class Orange extends Building {
 
