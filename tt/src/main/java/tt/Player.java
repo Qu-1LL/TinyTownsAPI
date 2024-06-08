@@ -1,14 +1,14 @@
 package tt;
 
 import java.util.HashSet;
-import java.util.ArrayList;
+
 import tt.buildings.*;
-import tt.buildings.green.Tavern;
-import tt.buildings.grey.Well;
-import tt.buildings.navy.Factory;
-import tt.buildings.orange.Chapel;
-import tt.buildings.red.Farm;
-import tt.buildings.yellow.Theatre;
+import tt.buildings.green.*;
+import tt.buildings.grey.*;
+import tt.buildings.navy.*;
+import tt.buildings.orange.*;
+import tt.buildings.red.*;
+import tt.buildings.yellow.*;
 
 public class Player {
 
@@ -16,15 +16,17 @@ public class Player {
     private Town town;
     private Game game;
     private HashSet<Tile> emptyTiles;
-    private HashSet<Tile> buildableCottage;
-    private HashSet<Tile> buildableYellow;
-    private HashSet<Tile> buildableOrange;
-    private HashSet<Tile> buildableRed;
-    private HashSet<Tile> buildableGreen;
-    private HashSet<Tile> buildableNavy;
-    private HashSet<Tile> buildableGrey;
-    private HashSet<Tile> buildableMonument;
-    private ArrayList<HashSet<Tile>> buildableSets;
+    private BuildingSet buildableCottage;
+    private BuildingSet buildableYellow;
+    private BuildingSet buildableOrange;
+    private BuildingSet buildableRed;
+    private BuildingSet buildableGreen;
+    private BuildingSet buildableNavy;
+    private BuildingSet buildableGrey;
+    private BuildingSet buildableMonument;
+    private BuildingSet[] buildableSets;
+
+    private Building[] buildingsTypes;
 
     private Building monument;
 
@@ -32,30 +34,60 @@ public class Player {
         this.username = username;
         this.game = game;
 
+        buildingsTypes = new Building[8];
+        buildingsTypes[0] = game.cottage;
+        buildingsTypes[1] = game.yellow;
+        buildingsTypes[2] = game.orange;
+        buildingsTypes[3] = game.red;
+        buildingsTypes[4] = game.green;
+        buildingsTypes[5] = game.navy;
+        buildingsTypes[6] = game.grey;
+        buildingsTypes[7] = this.monument;
+
         this.town = new Town(4);
         this.emptyTiles = new HashSet<Tile>();
         for (Tile tile : town) {
             emptyTiles.add(tile);
         }
 
-        this.buildableCottage = new HashSet<Tile>();
-        this.buildableYellow = new HashSet<Tile>();
-        this.buildableOrange = new HashSet<Tile>();
-        this.buildableRed = new HashSet<Tile>();
-        this.buildableGreen = new HashSet<Tile>();
-        this.buildableNavy = new HashSet<Tile>();
-        this.buildableGrey = new HashSet<Tile>();
-        this.buildableMonument = new HashSet<Tile>();
+        this.buildableCottage = new BuildingSet();
+        this.buildableYellow = new BuildingSet();
+        this.buildableOrange = new BuildingSet();
+        this.buildableRed = new BuildingSet();
+        this.buildableGreen = new BuildingSet();
+        this.buildableNavy = new BuildingSet();
+        this.buildableGrey = new BuildingSet();
+        this.buildableMonument = new BuildingSet();
 
-        this.buildableSets = new ArrayList<HashSet<Tile>>();
-        buildableSets.add(buildableCottage);
-        buildableSets.add(buildableYellow);
-        buildableSets.add(buildableOrange);
-        buildableSets.add(buildableRed);
-        buildableSets.add(buildableGreen);
-        buildableSets.add(buildableNavy);
-        buildableSets.add(buildableGrey);
-        buildableSets.add(buildableMonument);
+        buildableSets = new BuildingSet[8];
+        buildableSets[0] = buildableCottage;
+        buildableSets[1] = buildableYellow;
+        buildableSets[2] = buildableOrange;
+        buildableSets[3] = buildableRed;
+        buildableSets[4] = buildableGreen;
+        buildableSets[5] = buildableNavy;
+        buildableSets[6] = buildableGrey;
+        buildableSets[7] = buildableMonument;
+    }
+
+    public boolean build (int x, int y, int index) {
+        // x and y are still 0-3 here, where user's input will be 1-4
+        BuildingSet set = buildableSets[index];
+        Tile tile = town.getTile(x,y);
+
+        if (!set.containsTile(tile)) {
+            return false;
+        }
+        if (set.countTile(tile) > 1) {
+            // put code here to deal with picking from the multiple schematics
+        } else {
+            for (Tile t : set.buildWith(tile)) {
+                t.removeResource();
+            }
+        }
+        town.build(x,y,buildingsTypes[index]);
+        updateBoardState();
+        return true;
     }
 
     public Town getTown () {
@@ -72,6 +104,14 @@ public class Player {
         buildableNavy = findBuildable(game.navy.getSchematic());
         buildableGrey = findBuildable(game.grey.getSchematic());
         buildableMonument = findBuildable(monument.getSchematic());
+        buildableSets[0] = buildableCottage;
+        buildableSets[1] = buildableYellow;
+        buildableSets[2] = buildableOrange;
+        buildableSets[3] = buildableRed;
+        buildableSets[4] = buildableGreen;
+        buildableSets[5] = buildableNavy;
+        buildableSets[6] = buildableGrey;
+        buildableSets[7] = buildableMonument;
     }
 
     private HashSet<Tile> findEmpty () {
@@ -84,9 +124,9 @@ public class Player {
         return empty;
     }
 
-    private HashSet<Tile> findBuildable (Resource[][] schem) {
+    private BuildingSet findBuildable (Resource[][] schem) {
         Resource[][] schematic = schem;
-        HashSet<Tile> buildable = new HashSet<Tile>();
+        BuildingSet buildables = new BuildingSet();
         for (int i = 1; i < 17;i++) {
             schematic = rotateCW(schematic);
             if (i % 4 == 0) {
@@ -95,9 +135,9 @@ public class Player {
             if (i % 8 == 0) {
                 mirrorV(schematic);
             }
-            compareSchematic(schematic,buildable);
+            compareSchematic(schematic,buildables);
         }
-        return buildable;
+        return buildables;
     }
 
     static Resource[][] rotateCW(Resource[][] schematic) {
@@ -131,7 +171,7 @@ public class Player {
         }
     }
 
-    private HashSet<Tile> compareSchematic (Resource[][] schematic, HashSet<Tile> buildable) {
+    private BuildingSet compareSchematic (Resource[][] schematic, BuildingSet buildables) {
         boolean fail = false;
         for (int i = 0;i <= (4-schematic[0].length);i++) {
             for (int j = 0;j <= (4-schematic.length);j++) {
@@ -146,11 +186,13 @@ public class Player {
                     if (fail) {break;}
                 }
                 if (fail) {continue;}
+                HashSet<Tile> buildable = new HashSet<Tile>();
                 fillBuildable(i,j,schematic,buildable);
+                buildables.add(buildable);
             }
         }
 
-        return buildable;
+        return buildables;
     }
 
     private void fillBuildable (int i, int j, Resource[][] schematic, HashSet<Tile> buildable) {
@@ -172,28 +214,30 @@ public class Player {
         this.monument = monument;
     }
 
-    public HashSet<Tile> getBuildableCottage () {
+    // Everything below this is probably only for testing
+
+    public BuildingSet getBuildableCottages () {
         return buildableCottage;
     }
-    public HashSet<Tile> getBuildableYellow () {
+    public BuildingSet getBuildableYellows () {
         return buildableYellow;
     }
-    public HashSet<Tile> getBuildableOrange () {
+    public BuildingSet getBuildableOranges () {
         return buildableOrange;
     }
-    public HashSet<Tile> getBuildableRed () {
+    public BuildingSet getBuildableReds () {
         return buildableRed;
     }
-    public HashSet<Tile> getBuildableGreen () {
+    public BuildingSet getBuildableGreens () {
         return buildableGreen;
     }
-    public HashSet<Tile> getBuildableNavy () {
+    public BuildingSet getBuildableNavys () {
         return buildableNavy;
     }
-    public HashSet<Tile> getBuildableGrey () {
+    public BuildingSet getBuildableGreys () {
         return buildableGrey;
     }
-    public HashSet<Tile> getBuildableMonument () {
+    public BuildingSet getBuildableMonuments () {
         return buildableMonument;
     }
     public HashSet<Tile> getEmptyTiles () {
@@ -203,33 +247,7 @@ public class Player {
     // Everything below is to be used for testing only
 
     protected Player () {
-        this.username = "tester";
-        this.game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
-
-        this.town = new Town(4);
-        this.emptyTiles = new HashSet<Tile>();
-        for (Tile tile : town) {
-            emptyTiles.add(tile);
-        }
-
-        this.buildableCottage = new HashSet<Tile>();
-        this.buildableYellow = new HashSet<Tile>();
-        this.buildableOrange = new HashSet<Tile>();
-        this.buildableRed = new HashSet<Tile>();
-        this.buildableGreen = new HashSet<Tile>();
-        this.buildableNavy = new HashSet<Tile>();
-        this.buildableGrey = new HashSet<Tile>();
-        this.buildableMonument = new HashSet<Tile>();
-
-        this.buildableSets = new ArrayList<HashSet<Tile>>();
-        buildableSets.add(buildableCottage);
-        buildableSets.add(buildableYellow);
-        buildableSets.add(buildableOrange);
-        buildableSets.add(buildableRed);
-        buildableSets.add(buildableGreen);
-        buildableSets.add(buildableNavy);
-        buildableSets.add(buildableGrey);
-        buildableSets.add(buildableMonument);
+        this("tester",new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well()));
     }
 
     protected void setTown () {
