@@ -58,7 +58,7 @@ public class TownMaker extends ListenerAdapter {
             towns[index].build(x-1,y-1,new Farm());
         }
         if (type.equalsIgnoreCase("factory")) {
-            towns[index].build(x-1,y-1,new Factory(Resource.EMPTY));
+            towns[index].build(x-1,y-1,new Factory());
         }
         if (type.equalsIgnoreCase("tavern")) {
             towns[index].build(x-1,y-1,new Tavern());
@@ -171,7 +171,7 @@ public class TownMaker extends ListenerAdapter {
                 b[3] = new Farm();
                 b[4] = new Cottage();
                 b[5] = new Chapel();
-                b[6] = new Factory(Resource.EMPTY);
+                b[6] = new Factory();
                 for (Building build : b) {
                     homeChannel.sendMessage(build.toString()).queue();
                 }

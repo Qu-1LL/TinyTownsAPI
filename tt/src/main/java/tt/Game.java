@@ -33,8 +33,8 @@ public class Game {
      * 
      * Round Steps: 
      * 
-     * 1. Ask that round's builder to type their chosen resource
-     * "tt resource"
+     * 1. Ask that round's builder to select their resource
+     * (Try to do this with a button.)
      * Player's with an empty emptyTiles set will not be builders.
      * 
      * 2. Each player, in no order, must type "tt place x y" to
@@ -46,8 +46,10 @@ public class Game {
      * "tt build building x y"
      * If that build isnt possible for some reason then a message
      * will be sent to let them know, but nothing will happen.
+     * If a player's emptyTiles set is empty, but any of their 
+     * buildableSets aren't, they will be forced to build.
      * 
-     * 4. Player's can type "tt done" to declare that they are
+     * 4. Player's can press a "done" button to declare that they are
      * done for that round, and they won't be able to build anymore.
      * Players who's buildableSets were all empty after placing 
      * will automatically be counted as done.
