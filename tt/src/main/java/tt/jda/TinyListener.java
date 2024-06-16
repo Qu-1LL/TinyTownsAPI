@@ -1,4 +1,4 @@
-package tt.discord;
+package tt.jda;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
@@ -17,5 +17,6 @@ public class TinyListener extends ListenerAdapter {
     private static String TT = "tt";
     private static String PLACE = "place";
     private static String BUILD = "build";
+    private static String SPACE = " ";
 
 }

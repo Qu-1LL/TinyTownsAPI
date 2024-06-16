@@ -1,14 +1,14 @@
 package tt;
 
 public enum BuildingType {
-    COTTAGE("<:cottage:1215710629181128715>"),
-    YELLOW("<:yellow_building:1215710640421871716>"),
-    ORANGE("<:orange_building:1215710627587428392>"),
-    RED("<:red_building:1215710630162604113>"),
-    GREEN("<:green_building:1215710636575694868>"),
-    NAVY("<:navy_building:1215710631748042772>"),
-    GREY("<:grey_building:1215710632880508929>"),
-    MONUMENT("<:monument:1215710634931527710>");
+    GREY("<:g_grey:1250992986100338779>"),
+    COTTAGE("<:h_cottage:1250865474837676164>"),
+    YELLOW("<:i_yellow:1250855270440112148>"),
+    ORANGE("<:j_orange:1250816696369942568>"),
+    RED("<:k_red:1250997229754253373>"),
+    GREEN("<:l_green:1250828044000559174>"),
+    NAVY("<:m_navy:1250861177454596167>"),
+    MONUMENT("<:n_monument:1251022844935278653>");
 
     private String emoji;
 

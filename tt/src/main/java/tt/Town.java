@@ -19,7 +19,7 @@ public class Town implements Iterable<Tile>{
     public int size () {
         return size;
     }
-    public void place (int x, int y, Resource resource) {
+    public void place (Resource resource, int x, int y) {
         if (town.get(Tile.toCoords(x,y)).getResource() == Resource.EMPTY && town.get(Tile.toCoords(x,y)).getBuilding() == null) {
             town.get(Tile.toCoords(x,y)).setResource(resource);
         }

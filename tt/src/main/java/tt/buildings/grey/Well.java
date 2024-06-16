@@ -19,7 +19,7 @@ public class Well extends Grey {
         int score = 0;
         Tile curtile = town.getTile(x,y);
         for (Tile tile : curtile.getAdjacentArray()) {
-            if (tile.getBuildingType() == BuildingType.COTTAGE) {
+            if (tile != null && tile.getBuildingType() == BuildingType.COTTAGE) {
                 score++;
             }
         }

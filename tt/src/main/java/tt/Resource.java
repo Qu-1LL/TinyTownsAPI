@@ -1,12 +1,12 @@
 package tt;
 
 public enum Resource implements Tileable {
-    BRICK("<:brick_new:1215769685073858680>",false),
-    GLASS("<:glass_new:1215769467435483266>",false),
-    STONE("<:stone_new:1215769584758558821>",false),
-    WHEAT("<:wheat_new:1215769538142933002>",false),
-    WOOD("<:wood_new:1215769728136515724>",false),
-    EMPTY("<:empty_tile:1215710638714654751>",true);
+    BRICK("<:f_brick:1250677977742708797>",false),
+    GLASS("<:e_glass:1250672736594821151>",false),
+    STONE("<:b_stone:1250677442494861364>",false),
+    WHEAT("<:c_wheat:1250664487690833982>",false),
+    WOOD("<:d_wood:1250662480284221520>",false),
+    EMPTY("<:a_empty:1250660017015619664>",true);
 
     private String emoji;
     private boolean empty;

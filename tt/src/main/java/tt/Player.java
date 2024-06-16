@@ -70,8 +70,11 @@ public class Player {
         buildableSets[7] = buildableMonument;
     }
 
+    public String getName() {
+        return username;
+    }
+
     public boolean build (int x, int y, int index) {
-        // x and y are still 0-3 here, where user's input will be 1-4
         BuildingSet set = buildableSets[index];
         Tile tile = town.getTile(x,y);
 
@@ -206,6 +209,10 @@ public class Player {
             }
         }
     }
+
+    public void place (Resource resource, int x, int y) {
+        town.place(resource,x,y);
+    } 
 
     public Building getMonument() {
         return monument;
