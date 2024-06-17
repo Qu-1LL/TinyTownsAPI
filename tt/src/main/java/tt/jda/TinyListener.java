@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import tt.*;
 
-public class TinyListener extends ListenerAdapter {
+public class TinyListener extends ListenerAdapter implements TT {
 
     private final JDA jda;
     private final String textChannelName;

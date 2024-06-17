@@ -93,6 +93,10 @@ public class Player {
         return true;
     }
 
+    public void place (Resource resource, int x, int y) {
+        town.place(resource,x,y);
+    }
+
     public Town getTown () {
         return town;
     }
@@ -210,10 +214,6 @@ public class Player {
         }
     }
 
-    public void place (Resource resource, int x, int y) {
-        town.place(resource,x,y);
-    } 
-
     public Building getMonument() {
         return monument;
     }
@@ -246,6 +246,9 @@ public class Player {
     }
     public BuildingSet getBuildableMonuments () {
         return buildableMonument;
+    }
+    public BuildingSet[] getBuildableSets () {
+        return buildableSets;
     }
     public HashSet<Tile> getEmptyTiles () {
         return emptyTiles;
