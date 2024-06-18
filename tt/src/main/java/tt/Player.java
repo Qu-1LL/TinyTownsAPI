@@ -28,7 +28,8 @@ public class Player {
 
     private Building[] buildingsTypes;
 
-    private Building monument;
+    private Monument monument;
+    private boolean hasMonument;
 
     public Player (String username, Game game) {
         this.username = username;
@@ -68,6 +69,8 @@ public class Player {
         buildableSets[5] = buildableNavy;
         buildableSets[6] = buildableGrey;
         buildableSets[7] = buildableMonument;
+
+        this.hasMonument = false;
     }
 
     public String getName() {
@@ -75,6 +78,9 @@ public class Player {
     }
 
     public boolean build (int x, int y, int index) {
+        if (buildingsTypes[index] instanceof Monument && hasMonument) {
+            return false;
+        }
         BuildingSet set = buildableSets[index];
         Tile tile = town.getTile(x,y);
 
@@ -89,6 +95,9 @@ public class Player {
             }
         }
         town.build(x,y,buildingsTypes[index]);
+        if (buildingsTypes[index] instanceof Monument) {
+            this.hasMonument = true;
+        }
         updateBoardState();
         return true;
     }
@@ -217,7 +226,7 @@ public class Player {
     public Building getMonument() {
         return monument;
     }
-    public void setMonument(Building monument) {
+    public void setMonument(Monument monument) {
         this.monument = monument;
     }
 

@@ -18,6 +18,15 @@ public enum Resource implements Tileable {
     public boolean isEmpty () {
         return empty;
     }
+    public static Resource[] fullValues () {
+        Resource[] resources = new Resource[5];
+        resources[0] = BRICK;
+        resources[1] = GLASS;
+        resources[2] = STONE;
+        resources[3] = WHEAT;
+        resources[4] = WOOD;
+        return resources;
+    }
     @Override
     public String toPrint () {
         return emoji;

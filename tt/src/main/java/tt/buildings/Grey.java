@@ -1,9 +1,9 @@
 package tt.buildings;
 
 import tt.*;
-import tt.buildings.grey.Well;
+import tt.buildings.grey.*;
 
-public class Grey extends Building {
+public abstract class Grey extends Building {
 
     private static NewBuilding nb1 = () -> new Well();
     private static NewBuilding[] greyBuildings = {nb1};

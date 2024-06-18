@@ -9,4 +9,5 @@ public interface TT {
     public void placeResources(HashMap<String,Player> players);
     public boolean freeBuild(HashSet<Player> activePlayers);
     public void gameEnd();
+    public Resource chooseResource(String name, Resource[] options);
 }

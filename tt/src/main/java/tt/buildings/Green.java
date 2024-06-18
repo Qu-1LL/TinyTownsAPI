@@ -3,7 +3,7 @@ package tt.buildings;
 import tt.*;
 import tt.buildings.green.Tavern;
 
-public class Green extends Building {
+public abstract class Green extends Building {
 
     private static NewBuilding nb1 = () -> new Tavern();
     private static NewBuilding[] greenBuildings = {nb1};

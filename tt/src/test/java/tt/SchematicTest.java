@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 //import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import tt.buildings.UniqueBuilding;
+import tt.buildings.monument.*;
 import tt.buildings.Cottage;
+import tt.buildings.Monument;
 
 import java.util.HashSet;
 import org.junit.Test;
@@ -22,10 +23,10 @@ public class SchematicTest {
         Player player = new Player();
         player.setTown();
         Town town = player.getTown();
-        player.setMonument((Building)(new UniqueBuilding(BuildingType.MONUMENT)));
-        town.place(2,1,Resource.WHEAT);
-        town.place(1,1,Resource.GLASS);
-        town.place(1,2,Resource.BRICK);
+        player.setMonument((Monument)(new MandrasPalace()));
+        town.place(Resource.WHEAT,2,1);
+        town.place(Resource.GLASS,1,1);
+        town.place(Resource.BRICK,1,2);
         player.updateBoardState();
         BuildingSet buildableCottage = player.getBuildableCottages();
         assertEquals(buildableCottage.size(),1);
@@ -38,10 +39,10 @@ public class SchematicTest {
         Player player = new Player();
         player.setTown();
         Town town = player.getTown();
-        player.setMonument((Building)(new UniqueBuilding(BuildingType.MONUMENT)));
-        town.place(2,1,Resource.WHEAT);
-        town.place(1,1,Resource.GLASS);
-        town.place(1,2,Resource.BRICK);
+        player.setMonument((Monument)(new MandrasPalace()));
+        town.place(Resource.WHEAT,2,1);
+        town.place(Resource.GLASS,1,1);
+        town.place(Resource.BRICK,1,2);
         player.updateBoardState();
         player.build(1,2,0);
         HashSet<Tile> emptyTiles = player.getEmptyTiles();

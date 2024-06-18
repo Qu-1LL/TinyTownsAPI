@@ -7,7 +7,7 @@ public class Factory extends Navy {
 
     private Resource resource;
 
-    public Factory () {
+    public Factory (Game game) {
         super("Factory",new Resource[2][4],0);
         this.getSchematic()[0][0] = Resource.WOOD;
         this.getSchematic()[0][1] = Resource.EMPTY;
@@ -18,7 +18,7 @@ public class Factory extends Navy {
         this.getSchematic()[1][2] = Resource.STONE;
         this.getSchematic()[1][3] = Resource.BRICK;
         
-        this.resource = grabResource();
+        this.resource = gainResource(name,);
     }
     @Override
     public String getRules () {

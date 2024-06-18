@@ -1,6 +1,7 @@
 package tt;
 
 import tt.buildings.*;
+import tt.buildings.monument.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +44,8 @@ public class Game {
         int count = 0;
         for (String username : usernames) {
             playersArray[count] = new Player(username,this);
+            // Remove this next line of code once monument system is properly set up.
+            playersArray[count].setMonument((Monument)new MandrasPalace());
             playersSet.add(playersArray[count]);
             count++;
         }
@@ -104,6 +107,10 @@ public class Game {
 
     public Player[] getPlayersArray() {
         return playersArray;
+    }
+
+    public TT getTT() {
+        return tt;
     }
 
     /*

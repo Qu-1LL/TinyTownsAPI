@@ -1,7 +1,7 @@
 package tt;
 
 public abstract class Building implements Tileable {
-    private final String name;
+    protected final String name;
     private final BuildingType type;
     private final Resource[][] schematic;
 
