@@ -1,17 +1,18 @@
 package tt;
 
 public enum Resource implements Tileable {
-    BRICK("<:f_brick:1250677977742708797>",false),
-    GLASS("<:e_glass:1250672736594821151>",false),
-    STONE("<:b_stone:1250677442494861364>",false),
-    WHEAT("<:c_wheat:1250664487690833982>",false),
-    WOOD("<:d_wood:1250662480284221520>",false),
-    EMPTY("<:a_empty:1250660017015619664>",true);
+    BRICK("<:f_brick:1250677977742708797>",false,"brick"),
+    GLASS("<:e_glass:1250672736594821151>",false,"glass"),
+    STONE("<:b_stone:1250677442494861364>",false,"stone"),
+    WHEAT("<:c_wheat:1250664487690833982>",false,"wheat"),
+    WOOD("<:d_wood:1250662480284221520>",false,"wood"),
+    EMPTY("<:a_empty:1250660017015619664>",true,"empty");
 
     private String emoji;
     private boolean empty;
+    public String STRING;
 
-    private Resource (String emoji,boolean empty) {
+    private Resource (String emoji,boolean empty,String STRING) {
         this.emoji = emoji;
         this.empty = empty;
     }
@@ -20,11 +21,11 @@ public enum Resource implements Tileable {
     }
     public static Resource[] fullValues () {
         Resource[] resources = new Resource[5];
-        resources[0] = BRICK;
-        resources[1] = GLASS;
-        resources[2] = STONE;
-        resources[3] = WHEAT;
-        resources[4] = WOOD;
+        resources[0] = WOOD;
+        resources[1] = WHEAT;
+        resources[2] = GLASS;
+        resources[3] = STONE;
+        resources[4] = BRICK;
         return resources;
     }
     @Override

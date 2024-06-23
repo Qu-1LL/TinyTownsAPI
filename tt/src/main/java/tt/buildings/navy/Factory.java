@@ -7,7 +7,7 @@ public class Factory extends Navy {
 
     private Resource resource;
 
-    public Factory (Game game) {
+    public Factory () {
         super("Factory",new Resource[2][4],0);
         this.getSchematic()[0][0] = Resource.WOOD;
         this.getSchematic()[0][1] = Resource.EMPTY;
@@ -17,8 +17,23 @@ public class Factory extends Navy {
         this.getSchematic()[1][1] = Resource.STONE;
         this.getSchematic()[1][2] = Resource.STONE;
         this.getSchematic()[1][3] = Resource.BRICK;
-        
-        this.resource = gainResource(name,);
+    }
+    @Override
+    protected void initialize (String username) {
+        this.resource = game.getTT().chooseResource(username,Resource.fullValues());
+    }
+    @Override
+    public Resource handleTrigger (Resource roundResource,String username) {
+        return game.getTT().chooseResource(username,Resource.fullValues());
+    }
+    @Override
+    public boolean isTriggered(Resource roundResource, String username) {
+        return roundResource == resource;
+    }
+    @Override
+    public void setGame (Game game, String username) {
+        this.game = game;
+        initialize(username);
     }
     @Override
     public String getRules () {

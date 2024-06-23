@@ -52,6 +52,7 @@ public class Game {
         return playerCount > 0;
     }
     
+    //might not be neccesary
     private boolean placeResource (String username, int x, int y) {
         // User input will be 1-4, data is stored 0-3
         for (Player player : playersArray) {
@@ -81,7 +82,7 @@ public class Game {
     }
 
     public void start () {
-        if (!makePlayers(tt.getUsernames())) {
+        if (!makePlayers(tt.findPlayers())) {
             return;
         }
         HashSet<Player> activePlayers = new HashSet<>(Set.of(playersArray));
@@ -89,14 +90,30 @@ public class Game {
         while (activePlayers.size() > 0) {
             for (Player player : playersArray) {
                 if (activePlayers.contains(player)) {
+
                     this.roundResource = tt.getRoundResource(player.getName());
+                    HashMap<String,Resource> placeableResources = new HashMap<String,Resource>();
+                    for (Player p : activePlayers) {
+                        boolean trigger = false;
+                        for (Tile tile : p.getTown()) {
+                            if (tile.getBuildingType() == BuildingType.NAVY && ((Navy)tile.getBuilding()).isTriggered(roundResource,p.getName())) {
+                                trigger = true;
+                                placeableResources.put(p.getName(),((Navy)tile.getBuilding()).handleTrigger(roundResource,p.getName()));
+                                break;
+                            }
+                        }
+                        if (!trigger) {
+                            placeableResources.put(p.getName(),roundResource);
+                        }
+                    }
+
                     HashMap<String,Player> playersMap = new HashMap<>();
                     for (Player p : activePlayers) {
                         playersMap.put(p.getName(),p);
                     }
-                    tt.placeResources(playersMap);
+                    tt.placeResources(placeableResources,playersMap);
                     updateActive(activePlayers,finishedPlayers);
-                    if (tt.freeBuild(activePlayers)) {
+                    if (tt.freeBuild(playersMap)) {
                         updateActive(activePlayers,finishedPlayers);
                     }
                 }

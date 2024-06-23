@@ -4,6 +4,8 @@ public abstract class Building implements Tileable {
     protected final String name;
     private final BuildingType type;
     private final Resource[][] schematic;
+    protected Player player;
+    protected Game game;
 
     static protected interface NewBuilding {
         public Building newBuilding();
@@ -13,7 +15,10 @@ public abstract class Building implements Tileable {
         this.name = name;
         this.type = type;
         this.schematic = schematic;
+        this.game = null;
     }
+    protected void setGame (Game game, String username) {}
+    protected void setPlayer (Player player) {}
     public BuildingType getType () {
         return type;
     }
