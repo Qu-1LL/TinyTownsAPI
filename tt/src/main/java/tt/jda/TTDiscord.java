@@ -23,7 +23,7 @@ public class TTDiscord implements TT {
     private static final String PLACE = "place";
     private static final String BUILD = "build";
     private static final String DONE = "done";
-    private static final String CHANNEL_ID = "1214007594151321701";
+    private static final long CHANNEL_ID = 1214007594151321701L;
 
     public TTDiscord (JDA jda, Game game) {
         this.jda = jda;

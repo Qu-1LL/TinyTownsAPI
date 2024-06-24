@@ -36,6 +36,7 @@ public class Game {
         this.navy = navy;
         this.grey = grey;
         this.playersSet = new HashSet<Player>();
+        this.tt = null;
     }
     
     private boolean makePlayers (Collection<String> usernames) {
@@ -82,6 +83,9 @@ public class Game {
     }
 
     public void start () {
+        if (tt == null) {
+            return;
+        }
         if (!makePlayers(tt.findPlayers())) {
             return;
         }
@@ -128,6 +132,9 @@ public class Game {
 
     public TT getTT() {
         return tt;
+    }
+    public void setTT(TT tt) {
+        this.tt = tt;
     }
 
     /*

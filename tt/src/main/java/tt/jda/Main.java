@@ -7,8 +7,16 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import tt.Game;
+import tt.buildings.Cottage;
+import tt.buildings.green.Tavern;
+import tt.buildings.grey.Well;
+import tt.buildings.orange.Chapel;
+import tt.buildings.red.Farm;
+import tt.buildings.yellow.Theatre;
+import tt.buildings.navy.Factory;
 
-public class MainBot extends ListenerAdapter{
+public class Main extends ListenerAdapter{
 
 
     private static final String BOT_TOKEN = "MTIxNDA3NjAxNzkwMDI1NzI4MA.G-okEo.DCNFHLEoQ86-lYLc2Ot9w0XIFSZ08RDGdfo-G8";
@@ -16,7 +24,7 @@ public class MainBot extends ListenerAdapter{
 
     private static JDA jda;
 
-    public MainBot() throws LoginException {
+    public Main() throws LoginException {
         JDABuilder builder = JDABuilder.createDefault(BOT_TOKEN);
 
         builder.enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT);
@@ -34,10 +42,6 @@ public class MainBot extends ListenerAdapter{
         return BOT_TOKEN;
     }
 
-
-    public void ifMessageSendMessage(String ifMessage, String sendMessage){
-        new CustomListener(jda, channel, sendMessage, ifMessage);
-    }
     public void makeMyTowns() {
         new TownMaker(jda, channel);
     }
@@ -61,10 +65,21 @@ public class MainBot extends ListenerAdapter{
     //     }
     // }
 
-    public static void main (String[] args) {
+    // public static void main (String[] args) {
+    //     try {
+    //         Main bot = new Main();
+    //         bot.makeMyTowns();
+    //     } catch (LoginException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+    public static void main(String[] args) {
         try {
-            MainBot bot = new MainBot();
-            bot.makeMyTowns();
+            Main bot = new Main();
+            Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
+            game.setTT(new TTDiscord(jda,game));
+            game.start();
         } catch (LoginException e) {
             e.printStackTrace();
         }

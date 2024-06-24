@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "tt.jda.Main",
+            "projectName": "tt"
+        },
+        {
+            "type": "java",
             "name": "TTDiscord",
             "request": "launch",
             "mainClass": "tt.jda.TTDiscord",
