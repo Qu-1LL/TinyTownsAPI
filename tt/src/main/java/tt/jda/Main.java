@@ -77,9 +77,10 @@ public class Main extends ListenerAdapter{
     public static void main(String[] args) {
         try {
             Main bot = new Main();
-            Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
-            game.setTT(new TTDiscord(jda,game));
-            game.start();
+            // Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
+            // game.setTT(new TTDiscord(jda,game));
+            // game.start();
+            System.out.println("Text Channels:"+jda.getTextChannels());
         } catch (LoginException e) {
             e.printStackTrace();
         }

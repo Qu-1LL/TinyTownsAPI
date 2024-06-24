@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import tt.*;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
 public class TTDiscord implements TT {
 
@@ -24,10 +25,12 @@ public class TTDiscord implements TT {
     private static final String BUILD = "build";
     private static final String DONE = "done";
     private static final long CHANNEL_ID = 1214007594151321701L;
+    private final MessageChannel channel;
 
     public TTDiscord (JDA jda, Game game) {
         this.jda = jda;
         this.game = game;
+        this.channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
     }
 
     public class ResourceListener extends ListenerAdapter {
