@@ -16,7 +16,7 @@ import tt.buildings.red.Farm;
 import tt.buildings.yellow.Theatre;
 import tt.buildings.navy.Factory;
 
-public class Main extends ListenerAdapter{
+public class MainBot extends ListenerAdapter{
 
 
     private static final String BOT_TOKEN = "MTIxNDA3NjAxNzkwMDI1NzI4MA.G-okEo.DCNFHLEoQ86-lYLc2Ot9w0XIFSZ08RDGdfo-G8";
@@ -24,7 +24,7 @@ public class Main extends ListenerAdapter{
 
     private static JDA jda;
 
-    public Main() throws LoginException {
+    public MainBot() throws LoginException {
         JDABuilder builder = JDABuilder.createDefault(BOT_TOKEN);
 
         builder.enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT);
@@ -76,11 +76,12 @@ public class Main extends ListenerAdapter{
 
     public static void main(String[] args) {
         try {
-            Main bot = new Main();
+            MainBot bot = new MainBot();
             // Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
             // game.setTT(new TTDiscord(jda,game));
             // game.start();
-            System.out.println("Text Channels:"+jda.getTextChannels());
+            System.out.println("Text Channels: "+jda.getTextChannels());
+            System.out.println("jda: "+jda);
         } catch (LoginException e) {
             e.printStackTrace();
         }
