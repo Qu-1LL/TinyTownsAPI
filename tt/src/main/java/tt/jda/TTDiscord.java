@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import tt.*;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
-public class TTDiscord implements TT {
+public class TTDiscord extends ListenerAdapter implements TT {
 
     private final JDA jda;
     private Game game;
@@ -24,16 +24,26 @@ public class TTDiscord implements TT {
     private static final String PLACE = "place";
     private static final String BUILD = "build";
     private static final String DONE = "done";
+    private static final String START = "start";
+    private static final String JOIN = "join";
+    private static final String NOW = "now";
     private static final long CHANNEL_ID = 1214007594151321701L;
-    private final MessageChannel channel;
+    private MessageChannel channel;
+
+    private final Object lock;
 
     public TTDiscord (JDA jda, Game game) {
         this.jda = jda;
         this.game = game;
-        this.channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
-    }
+        this.channel = null;
+        this.lock = new Object();
+        jda.addEventListener(this);
 
-    public class ResourceListener extends ListenerAdapter {
+    }
+    // Narrowed it down to EventWaiter or Sending events away
+    // Try sending events away first, then if that doesnt work use EventWaiter
+
+    public class ResourceListener {
         Resource resource = null;
         boolean complete = false;
         private Resource[] options;
@@ -42,10 +52,9 @@ public class TTDiscord implements TT {
         public ResourceListener (String name, Resource[] options) {
             this.name = name;
             this.options = options;
-            jda.addEventListener(this);
             
             if (options.length == 5) {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(
+                channel.sendMessage(
                     name + " please select your resource:"
                 ).addActionRow(
                     Button.secondary("0",Emoji.fromFormatted(options[0].toPrint())),
@@ -55,7 +64,7 @@ public class TTDiscord implements TT {
                     Button.secondary("4",Emoji.fromFormatted(options[4].toPrint()))
                 ).queue();
             } else if (options.length == 4) {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(
+                channel.sendMessage(
                     name + " please select your resource:"
                 ).addActionRow(
                     Button.secondary("0",Emoji.fromFormatted(options[0].toPrint())),
@@ -64,7 +73,7 @@ public class TTDiscord implements TT {
                     Button.secondary("3",Emoji.fromFormatted(options[3].toPrint()))
                 ).queue();
             } else if (options.length == 3) {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(
+                channel.sendMessage(
                     name + " please select your resource:"
                 ).addActionRow(
                     Button.secondary("0",Emoji.fromFormatted(options[0].toPrint())),
@@ -72,7 +81,7 @@ public class TTDiscord implements TT {
                     Button.secondary("2",Emoji.fromFormatted(options[2].toPrint()))
                 ).queue();
             } else if (options.length == 2) {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(
+                channel.sendMessage(
                     name + " please select your resource:"
                 ).addActionRow(
                     Button.secondary("0",Emoji.fromFormatted(options[0].toPrint())),
@@ -109,60 +118,48 @@ public class TTDiscord implements TT {
         }
     }
 
-    public class PlayerListener extends ListenerAdapter {
+    public class PlayerListener {
         HashSet<String> usernames;
         long messageId;
-        boolean started;
         Thread thread;
         boolean complete;
 
         public PlayerListener () {
             this.usernames = new HashSet<String>();
-            this.started = false;
             this.complete = false;
+        }
+        public HashSet<String> start () {
             jda.addEventListener(this);
+            channel.sendMessage("Send \"tt join\" to be added to the game!\nSend \"tt now\" to make the game start!").queue();
+            
+            while (!this.complete) {
+                // try {
+                //     wait(1000);
+                // } catch (InterruptedException e) {}
+            }
+            jda.removeEventListener(this);
 
-            jda.getTextChannelById(CHANNEL_ID).sendMessage(
-                    "Click this button to join the next Tiny Towns game!\n\n"
-                    + "The next game starts soon!\n\n"
-                    + "Players:"
-                ).addActionRow(
-                    Button.primary("join", "Join!")
-                ).queue();
+            return usernames;
         }
         @Override
-        public void onButtonInteraction(ButtonInteractionEvent event) {
-            if (!started) {
-                usernames.add(event.getUser().getId());
-
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run () {
-                        started = true;
-                        for (int i = 15; i > 0; i--) {
-                            try {
-                                wait(990);
-                            } catch (InterruptedException e) {}
-                            String joinMessage = "Click this button to join the next Tiny Towns game!\n\n"
-                                            + "The next game starts in" + i + " seconds!\n\n"
-                                            + "Players:";
-                                            for (String name : usernames) {
-                                                joinMessage += " " + name + ",";
-                                            }
-                            event.getMessage().editMessage(joinMessage
-                            ).queue();
-                        }
-                        // potential to raise errors here v
-                        List<ItemComponent> actionRow = null; 
-                        event.getMessage().editMessage("The game is starting!").setActionRow(actionRow).queue();
-                        complete = true;
-                    }
-                });
-
-                thread.start();
+        public void onMessageReceived(MessageReceivedEvent event) {
+            String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
+            if (!parsedMessage[0].equalsIgnoreCase(TT)) {
+                return;
             }
-            if (started) {
-                usernames.add(event.getUser().getId());
+            if (parsedMessage.length != 2) {
+                return;
+            }
+            if (parsedMessage[1].equalsIgnoreCase(JOIN)) {
+                usernames.add(event.getAuthor().getId());
+                String joinMessage = "Players:";
+                for (String name : getUsernames()) {
+                    joinMessage += " " + name + ",";
+                }
+                channel.sendMessage(joinMessage).queue();
+            }
+            if (parsedMessage[1].equalsIgnoreCase(NOW)) {
+                complete = true;
             }
         }
         public HashSet<String> getUsernames () {
@@ -173,7 +170,7 @@ public class TTDiscord implements TT {
         }
     }
 
-    public class PlaceListener extends ListenerAdapter {
+    public class PlaceListener {
         private boolean complete;
         private HashSet<String> placed;
         private HashMap<String,Resource> placeableResources;
@@ -184,7 +181,6 @@ public class TTDiscord implements TT {
             this.placed = new HashSet<String>();
             this.placeableResources = placeableResources;
             this.playersMap = playersMap;
-            jda.addEventListener(this);
         }
         @Override
         public void onMessageReceived(MessageReceivedEvent event) {
@@ -207,12 +203,11 @@ public class TTDiscord implements TT {
             if (placeableResources.containsKey(eventsName)) {
                 playersMap.get(eventsName).place(placeableResources.get(eventsName),x,y);
                 placed.add(eventsName);
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(eventsName + "'s town:").queue();
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(playersMap.get(eventsName).getTown().toString()).queue();
+                channel.sendMessage(eventsName + "'s town:").queue();
+                channel.sendMessage(playersMap.get(eventsName).getTown().toString()).queue();
             }
             if (placed.size() == playersMap.size()) {
                 complete = true;
-                jda.removeEventListener(this);
             }
         }
         public boolean complete () {
@@ -220,7 +215,7 @@ public class TTDiscord implements TT {
         }
     }
 
-    public class BuildListener extends ListenerAdapter {
+    public class BuildListener {
         private boolean complete;
         private HashSet<String> done;
         private HashMap<String, Player> playersMap;
@@ -230,7 +225,6 @@ public class TTDiscord implements TT {
             this.complete = false;
             this.done = new HashSet<String>();
             this.playersMap = playersMap;
-            jda.addEventListener(this);
         }
         @Override
         public void onMessageReceived (MessageReceivedEvent event) {
@@ -244,13 +238,12 @@ public class TTDiscord implements TT {
             String author = event.getAuthor().getId();
             if (parsedMessage[1].equalsIgnoreCase(DONE)) {
                 if (playersMap.get(author).getEmptyTiles().size() == 0) {
-                    jda.getTextChannelById(CHANNEL_ID).sendMessage(author + " must place a building.").queue();
+                    channel.sendMessage(author + " must place a building.").queue();
                 } else {
                     done.add(author);
                     playersMap.remove(author);
                     if (playersMap.size() == 0) {
                         complete = true;
-                        jda.removeEventListener(this);
                     }
                     event.getMessage().addReaction(event.getGuild().getEmojiById("<:a_empty:1250660017015619664>")).queue();
                 }
@@ -275,11 +268,11 @@ public class TTDiscord implements TT {
                 return;
             } 
             if(playersMap.get(author).build(x,y,index)) {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(author + " built in their town:").queue();
-                jda.getTextChannelById(CHANNEL_ID).sendMessage(playersMap.get(author).getTown().toString()).queue();
+                channel.sendMessage(author + " built in their town:").queue();
+                channel.sendMessage(playersMap.get(author).getTown().toString()).queue();
                 built = true;
             } else {
-                jda.getTextChannelById(CHANNEL_ID).sendMessage("Could not complete the latest build requested by " + author).queue();
+                channel.sendMessage("Could not complete the latest build requested by " + author).queue();
             }
         }
         public boolean complete () {
@@ -289,6 +282,27 @@ public class TTDiscord implements TT {
             return built;
         }
     }
+
+    @Override
+    public void onMessageReceived (MessageReceivedEvent event) {
+        String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
+        if (!parsedMessage[0].equalsIgnoreCase(TT)) {
+            return;
+        }
+        if (!(parsedMessage[1].equalsIgnoreCase(START) && parsedMessage.length == 2)) {
+            return;
+        }
+        this.channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
+        game.start();
+    }
+
+    // private MessageChannel getChannel (MessageReceivedEvent event) {
+    //     return event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
+    // }
+
+    // private MessageChannel getChannel (ButtonInteractionEvent event) {
+    //     return event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
+    // }
 
     @Override
     public Resource getRoundResource(String username) {
@@ -301,18 +315,25 @@ public class TTDiscord implements TT {
     }
 
     private Resource useResourceListener (ResourceListener receiver) {
-        Thread thread = new Thread() {
-            @Override
-            public void run () {
-                while (!receiver.complete()) {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {}
-                }
-            }
-        };
+        jda.addEventListener(receiver);
+        // Thread thread = new Thread() {
+        //     @Override
+        //     public void start () {
+        //         while (!receiver.complete()) {
+        //             try {
+        //                 sleep(100);
+        //             } catch (InterruptedException e) {}
+        //         }
+        //     }
+        // };
         
-        thread.run();
+        // thread.start();
+
+        while (!receiver.complete()) {
+            try {
+                wait(100);
+            } catch (InterruptedException e) {}
+        }
 
         jda.removeEventListener(receiver);
         return receiver.getResource();
@@ -321,6 +342,7 @@ public class TTDiscord implements TT {
     @Override
     public void placeResources(HashMap<String, Resource> placeableResources, HashMap<String,Player> playersMap) {
         PlaceListener receiver = new PlaceListener(placeableResources, playersMap);
+        jda.addEventListener(receiver);
         Thread thread = new Thread() {
             @Override
             public void run () {
@@ -333,11 +355,13 @@ public class TTDiscord implements TT {
         };
         
         thread.run();
+        jda.removeEventListener(receiver);
     }
 
     @Override
     public boolean freeBuild(HashMap<String, Player> playersMap) {
         BuildListener receiver = new BuildListener(playersMap);
+        jda.addEventListener(receiver);
         Thread thread = new Thread() {
             @Override
             public void run () {
@@ -350,6 +374,8 @@ public class TTDiscord implements TT {
         };
         
         thread.run();
+
+        jda.removeEventListener(receiver);
 
         return receiver.built();
     }
@@ -357,21 +383,20 @@ public class TTDiscord implements TT {
     @Override
     public HashSet<String> findPlayers() {
         PlayerListener receiver = new PlayerListener();
-        Thread thread = new Thread() {
-            @Override
-            public void run () {
-                while (!receiver.complete()) {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {}
-                }
-            }
-        };
+        // Thread thread = new Thread() {
+        //     @Override
+        //     public void run () {
+        //         int i = 15;
+        //         synchronized (lock){
 
-        thread.run();
+        //         }
+        //     }
+        // };
 
-        jda.removeEventListener(receiver);
-        return receiver.getUsernames();
+        // thread.run();
+
+
+        return receiver.start();
     }
 
     @Override
@@ -382,5 +407,6 @@ public class TTDiscord implements TT {
             tc.sendMessage(player.getName() + ":" + player.getTown().score()).queue();
             tc.sendMessage(player.getTown().toString()).queue();
         }
+        jda.addEventListener(this);
     }
 }

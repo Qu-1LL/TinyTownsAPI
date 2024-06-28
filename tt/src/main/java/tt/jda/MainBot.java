@@ -18,7 +18,6 @@ import tt.buildings.navy.Factory;
 
 public class MainBot extends ListenerAdapter{
 
-
     private static final String BOT_TOKEN = "MTIxNDA3NjAxNzkwMDI1NzI4MA.G-okEo.DCNFHLEoQ86-lYLc2Ot9w0XIFSZ08RDGdfo-G8";
     private static final String channel = "da-bot-home";
 
@@ -77,11 +76,10 @@ public class MainBot extends ListenerAdapter{
     public static void main(String[] args) {
         try {
             MainBot bot = new MainBot();
-            // Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
-            // game.setTT(new TTDiscord(jda,game));
-            // game.start();
-            System.out.println("Text Channels: "+jda.getTextChannels());
-            System.out.println("jda: "+jda);
+            Game game = new Game(new Cottage(),new Theatre(),new Chapel(),new Farm(),new Tavern(),new Factory(),new Well());
+            game.setTT(new TTDiscord(jda,game));
+            // System.out.println("Text Channels: "+jda.getTextChannels());
+            // System.out.println("jda: "+jda);
         } catch (LoginException e) {
             e.printStackTrace();
         }
