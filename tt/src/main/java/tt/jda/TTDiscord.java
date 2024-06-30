@@ -26,6 +26,10 @@ public class TTDiscord extends ListenerAdapter implements TT {
     private static final String START = "start";
     private static final String JOIN = "join";
     private static final String NOW = "now";
+    private static final Object fpLock = new Object();
+    private static final Object crLock = new Object();
+    private static final Object prLock = new Object();
+    private static final Object fbLock = new Object();
     private MessageChannel channel;
     private int phase;
 
@@ -103,7 +107,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
     //     }
     //     @Override
     //     public void onButtonInteraction(ButtonInteractionEvent event) {
-    //         if (event.getUser().getId() == name) {
+    //         if (event.getUser().getName() == name) {
     //             resource = options[Integer.parseInt(event.getComponentId())];
     //             complete = true;
 
@@ -149,7 +153,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
     //             return;
     //         }
     //         if (parsedMessage[1].equalsIgnoreCase(JOIN)) {
-    //             usernames.add(event.getAuthor().getId());
+    //             usernames.add(event.getAuthor().getName());
     //             String joinMessage = "Players:";
     //             for (String name : getUsernames()) {
     //                 joinMessage += " " + name + ",";
@@ -197,7 +201,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
     //         if (!(x < 4 && x > 0 && y < 4 && y > 0)) {
     //             return;
     //         } 
-    //         String eventsName = event.getAuthor().getId();
+    //         String eventsName = event.getAuthor().getName();
     //         if (placeableResources.containsKey(eventsName)) {
     //             playersMap.get(eventsName).place(placeableResources.get(eventsName),x,y);
     //             placed.add(eventsName);
@@ -233,7 +237,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
     //         if (!parsedMessage[1].equalsIgnoreCase(BUILD) && !parsedMessage[1].equalsIgnoreCase(DONE)) {
     //             return;
     //         }
-    //         String author = event.getAuthor().getId();
+    //         String author = event.getAuthor().getName();
     //         if (parsedMessage[1].equalsIgnoreCase(DONE)) {
     //             if (playersMap.get(author).getEmptyTiles().size() == 0) {
     //                 channel.sendMessage(author + " must place a building.").queue();
@@ -292,31 +296,41 @@ public class TTDiscord extends ListenerAdapter implements TT {
                 return;
             }
             this.channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
+            channel.sendMessage("Send \"tt join\" to be added to the game!\nSend \"tt now\" to let the game begin!").queue();
             game.start();
         }
         if (phase == 1) {
-            handleFindPlayers(event);
+            synchronized(fpLock) {
+                handleFindPlayers(event);
+                //channel.sendMessage("Made it into synchronized block.").queue();
+                fpLock.notifyAll();
+            }
+            //channel.sendMessage("Exited Synchronized Block.").queue();
         }
+        //channel.sendMessage("Exited if (phase == 1) statement").queue();
         if (phase == 3) {
-            handlePlaceResources(event,myPlaceableResources,myPlayersMap);
+            synchronized(prLock) {
+                handlePlaceResources(event,myPlaceableResources,myPlayersMap);
+                prLock.notifyAll();
+            }
         }
         if (phase == 4) {
-            handleFreeBuild(event,myPlayersMap);
+            synchronized (fbLock) {
+                handleFreeBuild(event,myPlayersMap);
+                fbLock.notifyAll();
+            }
         }
     }
 
     @Override
     public void onButtonInteraction (ButtonInteractionEvent event) {
-        handleChooseResource(event,resourceName,myOptions);
+        if (phase == 2) {
+            synchronized(crLock) {
+                handleChooseResource(event,resourceName,myOptions);
+                crLock.notifyAll();
+            }
+        }
     }
-
-    // private MessageChannel getChannel (MessageReceivedEvent event) {
-    //     return event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
-    // }
-
-    // private MessageChannel getChannel (ButtonInteractionEvent event) {
-    //     return event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
-    // }
 
     private static Resource resource;
     private static String resourceName;
@@ -326,6 +340,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
     @Override
     public Resource getRoundResource(String username) {
         phase = 2;
+        channel.sendMessage("set phase = 2").queue();
         sendResourceButtons(username,Resource.fullValues());
         return combineChooseResource(username,Resource.fullValues());
     }
@@ -384,15 +399,36 @@ public class TTDiscord extends ListenerAdapter implements TT {
 
     private Resource combineChooseResource (String name, Resource[] options) {
         resourceName = name;
-        if (resourceDone) {
-            return resource;
-        } else {
-            return combineChooseResource(name,options);
-        }
+
+        Thread thread = new Thread() {
+            @Override
+            public void run () {
+                channel.sendMessage("chooseResource thread has started").queue();
+                synchronized(crLock) {
+                    while (!resourceDone) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {}
+                    }
+                    resourceDone = false;
+                }
+            }
+        };
+        thread.run();
+        channel.sendMessage("chooseResource thread has ended").queue();
+
+        return resource;
+
+        // if (resourceDone) {
+        //     return resource;
+        // } else {
+        //     return combineChooseResource(name,options);
+        // }
     } 
 
     private boolean handleChooseResource (ButtonInteractionEvent event, String name, Resource[] options) {
-        if (event.getUser().getId() == name) {
+        channel.sendMessage("chooseResourceHandler entered.").queue();
+        if (event.getUser().getName() == name) {
             resource = options[Integer.parseInt(event.getComponentId())];
 
             List<ItemComponent> actionRow = event.getMessage().getActionRows().get(0).getComponents();
@@ -400,6 +436,8 @@ public class TTDiscord extends ListenerAdapter implements TT {
                 actionRow.remove(i);
             }
             event.editMessage(event.getMessage().getContentRaw()).setActionRow(actionRow).queue();
+            channel.sendMessage("The chosen resource is " + resource.STRING + ".").queue();
+            channel.sendMessage(resource.toString()).queue();
             resourceDone = true;
             return true;
         }
@@ -412,11 +450,22 @@ public class TTDiscord extends ListenerAdapter implements TT {
         myPlaceableResources = placeableResources;
         myPlayersMap = playersMap;
         placed = new HashSet<String>();
-        if (placedDone) {
-            return;
-        } else {
-            placeResources(placeableResources,playersMap);
-        }
+        Thread thread = new Thread() {
+            @Override
+            public void run () {
+                synchronized(fpLock) {
+                    while (!placedDone) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {}
+                    }
+                    placedDone = false;
+                }
+            }
+        };
+        thread.run();
+
+        return;
     }
 
     private static HashMap<String, Resource> myPlaceableResources;
@@ -440,7 +489,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
             if (!(x < 4 && x > 0 && y < 4 && y > 0)) {
                 return false;
             } 
-            String eventsName = event.getAuthor().getId();
+            String eventsName = event.getAuthor().getName();
             if (placeableResources.containsKey(eventsName)) {
                 playersMap.get(eventsName).place(placeableResources.get(eventsName),x,y);
                 placed.add(eventsName);
@@ -462,11 +511,22 @@ public class TTDiscord extends ListenerAdapter implements TT {
         phase = 4;
         myPlayersMap = playersMap;
         done = new HashSet<String>();
-        if (buildDone) {
-            return wasBuilt;
-        } else {
-            return freeBuild(playersMap);
-        }
+        Thread thread = new Thread() {
+            @Override
+            public void run () {
+                synchronized(fpLock) {
+                    while (!buildDone) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {}
+                    }
+                    buildDone = false;
+                }
+            }
+        };
+        thread.run();
+
+        return wasBuilt;
     }
 
     private boolean handleFreeBuild (MessageReceivedEvent event, HashMap<String, Player> playersMap) {
@@ -477,7 +537,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
         if (!parsedMessage[1].equalsIgnoreCase(BUILD) && !parsedMessage[1].equalsIgnoreCase(DONE)) {
             return false;
         }
-        String author = event.getAuthor().getId();
+        String author = event.getAuthor().getName();
         if (parsedMessage[1].equalsIgnoreCase(DONE)) {
             if (playersMap.get(author).getEmptyTiles().size() == 0) {
                 channel.sendMessage(author + " must place a building.").queue();
@@ -527,14 +587,42 @@ public class TTDiscord extends ListenerAdapter implements TT {
     @Override
     public HashSet<String> findPlayers() {
         phase = 1;
-        if (playersDone) {
-            return players;
-        } else {
-            return findPlayers();
-        }
+        //channel.sendMessage("set phase = 1.(Through channel)").queue();
+
+        Thread thread = new Thread() {
+            @Override
+            public void run () {
+                synchronized(fpLock) {
+                    while (true) {
+                        if (playersDone) {
+                            playersDone = false;
+                            channel.sendMessage("playersDone = true").queue();
+                            interrupt();
+                        } else {
+                            channel.sendMessage("playersDone = false").queue();
+                            try {
+                                wait();
+                                channel.sendMessage("successfully notified.").queue();
+                            } catch (InterruptedException e) {}
+                        }
+                    }
+                }
+            }
+        };
+        thread.run();
+
+        channel.sendMessage("exited findPlayers Thread.").queue();
+
+        return players;
+        // if (playersDone) {
+        //     return players;
+        // } else {
+        //     return findPlayers();
+        // }
     }
     
     private boolean handleFindPlayers(MessageReceivedEvent event) {
+        //channel.sendMessage("Made it to handleFindPlayers()").queue();
         String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
         if (!parsedMessage[0].equalsIgnoreCase(TT)) {
             return false;
@@ -543,7 +631,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
             return false;
         }
         if (parsedMessage[1].equalsIgnoreCase(JOIN)) {
-            players.add(event.getAuthor().getId());
+            players.add(event.getAuthor().getName());
             String joinMessage = "Players:";
             for (String name : players) {
                 joinMessage += " " + name + ",";
@@ -552,6 +640,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
             return false;
         }
         if (parsedMessage[1].equalsIgnoreCase(NOW)) {
+            channel.sendMessage("bot successfully read \"tt now\"").queue();
             playersDone = true;
             return true;
         }
@@ -560,7 +649,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
 
     @Override
     public void gameEnd() {
-        channel.sendMessage("And the game is over!\nHere are your scores!").queue();
+        channel.sendMessage("The game is over!\nHere are your scores!").queue();
         for (Player player : game.getPlayersArray()) {
             channel.sendMessage(player.getName() + ":" + player.getTown().score()).queue();
             channel.sendMessage(player.getTown().toString()).queue();
