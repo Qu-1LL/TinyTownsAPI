@@ -9,7 +9,7 @@ public class Town implements Iterable<Tile>{
     private int size;
 
     public Town (int size) {
-        town = new HashMap<String,Tile>();
+        this.town = new HashMap<String,Tile>();
         this.size = size;
         this.fillTown();
     }
@@ -29,13 +29,18 @@ public class Town implements Iterable<Tile>{
     }
     public int score() {
         int score = 0;
-        for (Tile tile : this) {
-            if (tile.getBuildingType() == BuildingType.RED) {
-                score += town.get(tile.getCoords()).getScore(this);
+        BuildingType[] types = {BuildingType.RED,BuildingType.GREY,BuildingType.COTTAGE,
+                                BuildingType.YELLOW,BuildingType.ORANGE,BuildingType.GREEN,
+                                BuildingType.NAVY,BuildingType.MONUMENT};
+        for (BuildingType bt : types) {
+            for (Tile tile : this) {
+                if (tile.getBuildingType() == bt){
+                    score += tile.getScore(this);
+                    if (!tile.getBuilding().individual()) {
+                        break;
+                    }
+                }
             }
-        }
-        for (Tile tile : this) {
-            score += town.get(tile.getCoords()).getScore(this);
         }
         return score;
     }

@@ -10,11 +10,12 @@ public enum Resource implements Tileable {
 
     private String emoji;
     private boolean empty;
-    public String STRING;
+    public String name;
 
-    private Resource (String emoji,boolean empty,String STRING) {
+    private Resource (String emoji,boolean empty,String name) {
         this.emoji = emoji;
         this.empty = empty;
+        this.name = name;
     }
     public boolean isEmpty () {
         return empty;

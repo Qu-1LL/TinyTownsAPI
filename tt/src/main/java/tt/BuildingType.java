@@ -11,17 +11,14 @@ public enum BuildingType {
     MONUMENT("<:n_monument:1251022844935278653>","monument");
 
     private String emoji;
-    public String STRING;
+    public String name;
 
-    private BuildingType (String emoji, String STRING) {
+    private BuildingType (String emoji, String name) {
         this.emoji = emoji;
-        this.STRING = STRING;
+        this.name = name;
     }
     @Override
     public String toString () {
-        if (this.emoji == null) {
-            return ":empty_tile:";
-        }
         return emoji;
     }
 }

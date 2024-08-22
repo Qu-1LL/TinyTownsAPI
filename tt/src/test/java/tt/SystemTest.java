@@ -12,9 +12,9 @@ import tt.buildings.Monument;
 import java.util.HashSet;
 import org.junit.Test;
 
-public class SchematicTest {
+public class SystemTest {
 
-    public SchematicTest () {
+    public SystemTest () {
         super();
     }
 
@@ -29,6 +29,7 @@ public class SchematicTest {
         town.place(Resource.BRICK,1,2);
         player.updateBoardState();
         BuildingSet buildableCottage = player.getBuildableCottages();
+
         assertEquals(buildableCottage.size(),1);
         assertTrue(buildableCottage.containsTile(town.getTile(2,1)));
         assertTrue(buildableCottage.containsTile(town.getTile(1,1)));
@@ -46,6 +47,7 @@ public class SchematicTest {
         player.updateBoardState();
         player.build(1,2,0);
         HashSet<Tile> emptyTiles = player.getEmptyTiles();
+        
         assertTrue(emptyTiles.contains(town.getTile(1,1)));
         assertTrue(emptyTiles.contains(town.getTile(2,1)));
         assertTrue(town.getTile(1,2).getTileable() instanceof Cottage);

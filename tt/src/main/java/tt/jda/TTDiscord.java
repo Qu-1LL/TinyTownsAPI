@@ -26,10 +26,10 @@ public class TTDiscord extends ListenerAdapter implements TT {
     private static final String START = "start";
     private static final String JOIN = "join";
     private static final String NOW = "now";
-    private static final Object fpLock = new Object();
-    private static final Object crLock = new Object();
-    private static final Object prLock = new Object();
-    private static final Object fbLock = new Object();
+    public final Object fpLock = new Object();
+    public final Object crLock = new Object();
+    public final Object prLock = new Object();
+    public final Object fbLock = new Object();
     private MessageChannel channel;
     private int phase;
 
@@ -41,9 +41,7 @@ public class TTDiscord extends ListenerAdapter implements TT {
         jda.addEventListener(this);
 
     }
-    // Narrowed it down to EventWaiter
-    // Try sending events away first, then if that doesnt work use EventWaiter
-    // EventWaiter won't import, going to give locks a legitamate try before i double down on event waiter.
+    // try turning the gameloop into a thread, force it to wait instead of calling functions that wait for it.
 
     // public class ResourceListener {
     //     Resource resource = null;
@@ -287,39 +285,46 @@ public class TTDiscord extends ListenerAdapter implements TT {
 
     @Override
     public void onMessageReceived (MessageReceivedEvent event) {
-        String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
-        if (phase == 0) {
-            if (!parsedMessage[0].equalsIgnoreCase(TT)) {
-                return;
+
+        Thread thread = new Thread() {
+            @Override
+            public void run () {
+                String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
+                if (phase == 0) {
+                    if (!parsedMessage[0].equalsIgnoreCase(TT)) {
+                        return;
+                    }
+                    if (!(parsedMessage[1].equalsIgnoreCase(START) && parsedMessage.length == 2)) {
+                        return;
+                    }
+                    channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
+                    channel.sendMessage("Send \"tt join\" to be added to the game!\nSend \"tt now\" to let the game begin!").queue();
+                    game.start();
+                }
+                if (phase == 1) {
+                    synchronized(fpLock) {
+                        handleFindPlayers(event);
+                        //channel.sendMessage("Made it into synchronized block.").queue();
+                        fpLock.notifyAll();
+                    }
+                    //channel.sendMessage("Exited Synchronized Block.").queue();
+                }
+                //channel.sendMessage("Exited if (phase == 1) statement").queue();
+                if (phase == 3) {
+                    synchronized(prLock) {
+                        handlePlaceResources(event,myPlaceableResources,myPlayersMap);
+                        prLock.notifyAll();
+                    }
+                }
+                if (phase == 4) {
+                    synchronized (fbLock) {
+                        handleFreeBuild(event,myPlayersMap);
+                        fbLock.notifyAll();
+                    }
+                }
             }
-            if (!(parsedMessage[1].equalsIgnoreCase(START) && parsedMessage.length == 2)) {
-                return;
-            }
-            this.channel = event.getGuild().getTextChannelsByName("da-bot-home", true).get(0);
-            channel.sendMessage("Send \"tt join\" to be added to the game!\nSend \"tt now\" to let the game begin!").queue();
-            game.start();
-        }
-        if (phase == 1) {
-            synchronized(fpLock) {
-                handleFindPlayers(event);
-                //channel.sendMessage("Made it into synchronized block.").queue();
-                fpLock.notifyAll();
-            }
-            //channel.sendMessage("Exited Synchronized Block.").queue();
-        }
-        //channel.sendMessage("Exited if (phase == 1) statement").queue();
-        if (phase == 3) {
-            synchronized(prLock) {
-                handlePlaceResources(event,myPlaceableResources,myPlayersMap);
-                prLock.notifyAll();
-            }
-        }
-        if (phase == 4) {
-            synchronized (fbLock) {
-                handleFreeBuild(event,myPlayersMap);
-                fbLock.notifyAll();
-            }
-        }
+        };
+        thread.run();
     }
 
     @Override
@@ -407,15 +412,17 @@ public class TTDiscord extends ListenerAdapter implements TT {
                 synchronized(crLock) {
                     while (!resourceDone) {
                         try {
-                            wait();
-                        } catch (InterruptedException e) {}
+                            crLock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     resourceDone = false;
                 }
             }
         };
-        thread.run();
-        channel.sendMessage("chooseResource thread has ended").queue();
+        thread.start();
+        //channel.sendMessage("chooseResource thread has ended").queue();
 
         return resource;
 
@@ -453,17 +460,19 @@ public class TTDiscord extends ListenerAdapter implements TT {
         Thread thread = new Thread() {
             @Override
             public void run () {
-                synchronized(fpLock) {
+                synchronized(prLock) {
                     while (!placedDone) {
                         try {
-                            wait();
-                        } catch (InterruptedException e) {}
+                            prLock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     placedDone = false;
                 }
             }
         };
-        thread.run();
+        thread.start();
 
         return;
     }
@@ -514,17 +523,19 @@ public class TTDiscord extends ListenerAdapter implements TT {
         Thread thread = new Thread() {
             @Override
             public void run () {
-                synchronized(fpLock) {
+                synchronized(fbLock) {
                     while (!buildDone) {
                         try {
-                            wait();
-                        } catch (InterruptedException e) {}
+                            fbLock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     buildDone = false;
                 }
             }
         };
-        thread.run();
+        thread.start();
 
         return wasBuilt;
     }
@@ -581,48 +592,17 @@ public class TTDiscord extends ListenerAdapter implements TT {
         }
     }
 
-    private static HashSet<String> players = new HashSet<String>();
-    private static boolean playersDone = false;
+    public HashSet<String> players = new HashSet<String>();
+    public boolean playersDone = false;
 
     @Override
-    public HashSet<String> findPlayers() {
+    public void findPlayers() {
         phase = 1;
-        //channel.sendMessage("set phase = 1.(Through channel)").queue();
-
-        Thread thread = new Thread() {
-            @Override
-            public void run () {
-                synchronized(fpLock) {
-                    while (true) {
-                        if (playersDone) {
-                            playersDone = false;
-                            channel.sendMessage("playersDone = true").queue();
-                            interrupt();
-                        } else {
-                            channel.sendMessage("playersDone = false").queue();
-                            try {
-                                wait();
-                                channel.sendMessage("successfully notified.").queue();
-                            } catch (InterruptedException e) {}
-                        }
-                    }
-                }
-            }
-        };
-        thread.run();
-
-        channel.sendMessage("exited findPlayers Thread.").queue();
-
-        return players;
-        // if (playersDone) {
-        //     return players;
-        // } else {
-        //     return findPlayers();
-        // }
+        
     }
     
     private boolean handleFindPlayers(MessageReceivedEvent event) {
-        //channel.sendMessage("Made it to handleFindPlayers()").queue();
+        channel.sendMessage("Made it to handleFindPlayers()").queue();
         String[] parsedMessage = event.getMessage().getContentRaw().split(" ");
         if (!parsedMessage[0].equalsIgnoreCase(TT)) {
             return false;
@@ -655,5 +635,11 @@ public class TTDiscord extends ListenerAdapter implements TT {
             channel.sendMessage(player.getTown().toString()).queue();
         }
         phase = 0;
+    }
+
+    // for debug purposes only v
+
+    public void sendMessage (String contents) {
+        channel.sendMessage(contents).queue();
     }
 }

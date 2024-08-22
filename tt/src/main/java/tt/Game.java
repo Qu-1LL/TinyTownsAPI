@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.HashMap;
+import tt.jda.TTDiscord;
 
 public class Game {
 
@@ -45,7 +46,7 @@ public class Game {
         int count = 0;
         for (String username : usernames) {
             playersArray[count] = new Player(username,this);
-            // Remove this next line of code once monument system is properly set up.
+            // Remove the next line of code once monument system is properly set up.
             playersArray[count].setMonument((Monument)new MandrasPalace());
             playersSet.add(playersArray[count]);
             count++;
@@ -54,16 +55,16 @@ public class Game {
     }
     
     //might not be neccesary
-    private boolean placeResource (String username, int x, int y) {
-        // User input will be 1-4, data is stored 0-3
-        for (Player player : playersArray) {
-            if (player.getName() == username) {
-                player.place(roundResource,x,y);
-                return true;
-            }
-        }
-        return false;
-    }
+    // private boolean placeResource (String username, int x, int y) {
+    //     // User input will be 1-4, data is stored 0-3
+    //     for (Player player : playersArray) {
+    //         if (player.getName() == username) {
+    //             player.place(roundResource,x,y);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     private void updateActive (HashSet<Player> activePlayers, HashSet<Player> finishedPlayers) {
         for (Player player : activePlayers) {
@@ -86,9 +87,9 @@ public class Game {
         if (tt == null) {
             return;
         }
-        if (!makePlayers(tt.findPlayers())) {
-            return;
-        }
+
+        makePlayers(tt.findPlayers());
+
         HashSet<Player> activePlayers = new HashSet<>(Set.of(playersArray));
         HashSet<Player> finishedPlayers = new HashSet<>();
         while (activePlayers.size() > 0) {
@@ -134,7 +135,7 @@ public class Game {
         return tt;
     }
     public void setTT(TT tt) {
-        this.tt = tt;
+        this.tt = (TTDiscord)tt;
     }
 
     /*

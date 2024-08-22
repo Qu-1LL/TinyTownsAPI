@@ -223,7 +223,7 @@ public class Player {
         }
     }
 
-    public Building getMonument() {
+    public Monument getMonument() {
         return monument;
     }
     public void setMonument(Monument monument) {

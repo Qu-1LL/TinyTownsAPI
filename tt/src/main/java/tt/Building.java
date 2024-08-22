@@ -4,8 +4,7 @@ public abstract class Building implements Tileable {
     protected final String name;
     private final BuildingType type;
     private final Resource[][] schematic;
-    protected Player player;
-    protected Game game;
+    protected boolean individual;
 
     static protected interface NewBuilding {
         public Building newBuilding();
@@ -15,12 +14,13 @@ public abstract class Building implements Tileable {
         this.name = name;
         this.type = type;
         this.schematic = schematic;
-        this.game = null;
+        this.individual = true;
     }
-    protected void setGame (Game game, String username) {}
-    protected void setPlayer (Player player) {}
     public BuildingType getType () {
         return type;
+    }
+    public boolean individual() {
+        return individual;
     }
     @Override
     public String toPrint () {
@@ -28,14 +28,6 @@ public abstract class Building implements Tileable {
     }
     public Resource[][] getSchematic() {
         return schematic;
-    }
-    public String getRules() {
-        return "This is a building. It scores no points." + 
-        " A building can be placed, and has the potential to score you points at the end of the game." +
-        " Buildings take up a tile on the board, and can't be moved once they are places.\n";
-    }
-    public int getScore(Town town, int x, int y) {
-        return 0;
     }
     public String getName () {
         return name;
@@ -51,9 +43,10 @@ public abstract class Building implements Tileable {
             }
         uniquebuilding += "\n";
         }
-        
-    return uniquebuilding;
+        return uniquebuilding;
     }
     public abstract Object build ();
+    public abstract String getRules();
+    public abstract int getScore(Town town, int x, int y);
 
 }
