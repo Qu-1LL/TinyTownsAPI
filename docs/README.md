@@ -1,3 +1,5 @@
-Quinton Miller 8/26/2024
+Quinton Miller 9/19/2024
 
-Proper written documentation is currently in progress. Just the UML has been pushed for now.
+DesignDoc.md has been significantly updated. Future update to include more detailed explanation of the system's workings.
+
+Added pixel art for future gui implementation.
