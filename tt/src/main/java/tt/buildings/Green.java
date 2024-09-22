@@ -1,12 +1,13 @@
 package tt.buildings;
 
 import tt.*;
-import tt.buildings.green.Tavern;
+import tt.buildings.green.*;
 
 public abstract class Green extends Building {
 
     private static NewBuilding nb1 = () -> new Tavern();
-    private static NewBuilding[] greenBuildings = {nb1};
+    private static NewBuilding nb2 = () -> new Almshouse();
+    private static NewBuilding[] greenBuildings = {nb1,nb2};
 
     private int index;
 
