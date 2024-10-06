@@ -19,6 +19,6 @@ When the project started, I wasn't sure how complex things would end up being. I
 
 <img src="Older_Iterations/TinyTownsUMLV1.png" width="100%"/>
 
-After working with the API for months on and off, it developed a much more complex class system. In orer to visualize this, I sat down and made this diagram to represent it all:
+After working with the API for months on and off, it developed a much more complex class system. In order to visualize this, I sat down and made this diagram to represent it all:
 
 <img src="Model_Tier_UML.png" width="100%"/>
